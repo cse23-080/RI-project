@@ -1,0 +1,52 @@
+/* Custom styles for user profile page */
+
+/* Profile picture upload button */
+.profile-pic-upload {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #38a169; /* green-600 */
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.profile-pic-upload:hover {
+  background-color: #2f855a; /* green-700 */
+  transform: scale(1.1);
+}
+
+/* Form input states */
+input:disabled, select:disabled, textarea:disabled {
+  background-color: #f7fafc; /* gray-50 */
+  color: #4a5568; /* gray-700 */
+  cursor: not-allowed;
+}
+
+/* Edit mode styling */
+.edit-mode input:not([type="submit"]):not([type="button"]),
+.edit-mode select,
+.edit-mode textarea {
+  background-color: white;
+  color: #1a202c; /* gray-900 */
+  cursor: text;
+}
+
+/* Transition effects */
+.transition {
+  transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-sidebar {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
