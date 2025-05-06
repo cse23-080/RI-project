@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auction Products | FarmAuction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .auction-timer {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .tab-active {
+      border-bottom: 3px solid #10b981;
+      color: #10b981;
+      font-weight: 600;
+    }
+    .bid-input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #10b981;
+    }
+    .progress-bar {
+      height: 6px;
+      background-color: #e5e7eb;
+    }
+    .progress-fill {
+      height: 100%;
+      background-color: #10b981;
+      transition: width 0.3s ease;
+    }
+    .livestock-badge {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    .equipment-badge {
+      background-color: #e0e7ff;
+      color: #3730a3;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Header with Navigation -->
+  <header class="bg-white shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <h1 class="text-2xl font-bold">
+          <span class="text-green-600">Farmers</span>
+          <span class="text-black">Auction</span>
+        </h1>
+      </div>
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-600 hover:text-green-600">Home</a>
+        <a href="#" class="text-green-600 font-medium">Products</a>
+        <a href="#" class="text-gray-600 hover:text-green-600">Auctions</a>
+        <a href="#" class="text-gray-600 hover:text-green-600">Farmers</a>
+        <a href="#" class="text-gray-600 hover:text-green-600">About</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button class="hidden md:block px-4 py-2 text-green-600 border border-green-600 rounded-md hover:bg-green-50">
+          Login
+        </button>
+        <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700">
+          Sign Up
+        </button>
+        <button class="md:hidden text-gray-600">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+    <!-- Page Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Active Auctions</h1>
+        <p class="text-gray-600">Browse and bid on fresh farm products, livestock, and equipment</p>
+      </div>
+      <button id="addProductBtn" class="mt-4 md:mt-0 px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center">
+        <i class="fas fa-plus mr-2"></i> Add Product to Auction
+      </button>
+    </div>
+
+    <!-- Filter and Search -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+        <div class="flex space-x-2 mb-4 md:mb-0 overflow-x-auto pb-2">
+          <button class="px-4 py-2 bg-green-600 text-white rounded-md whitespace-nowrap">All</button>
+          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Produce</button>
+          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Livestock</button>
+          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Equipment</button>
+          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Dairy</button>
+          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Poultry</button>
+        </div>
+        <div class="relative w-full md:w-64">
+          <input type="text" placeholder="Search auctions..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="border-b border-gray-200 mb-8">
+      <div class="flex space-x-8 overflow-x-auto">
+        <button class="tab-active pb-3 px-1 whitespace-nowrap">Active Auctions</button>
+        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">Completed</button>
+        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">My Bids</button>
+        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">My Listings</button>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <!-- Product Card 1 - Produce -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Organic Tomatoes" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded">
+            Organic
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">12h 34m 56s</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Organic Tomatoes</h3>
+            <span class="text-green-600 font-medium">$2.99</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Freshly harvested vine-ripened tomatoes from Green Valley Farms</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $45.00</span>
+              <span>12 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 75%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="46.00" step="0.01" placeholder="$46.00" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 2 - Livestock -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1549314945-5a2f0a0d2e1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Angus Cattle" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 livestock-badge text-xs font-medium px-2 py-1 rounded">
+            Livestock
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">1d 4h 12m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Angus Cattle (5 Head)</h3>
+            <span class="text-green-600 font-medium">$2,500</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Premium quality Black Angus cattle, 18-24 months old</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $11,500</span>
+              <span>8 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 60%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="12000" step="100" placeholder="$12,000" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 3 - Equipment -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1594282416549-65a935fd1f40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tractor" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 equipment-badge text-xs font-medium px-2 py-1 rounded">
+            Equipment
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">3d 2h 45m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">John Deere Tractor</h3>
+            <span class="text-green-600 font-medium">$12,500</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">2018 model, low hours, excellent condition</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $10,200</span>
+              <span>5 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 40%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="10250" step="50" placeholder="$10,250" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 4 - Livestock -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Sheep" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 livestock-badge text-xs font-medium px-2 py-1 rounded">
+            Livestock
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">1d 8h 22m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Dorper Sheep (Flock of 20)</h3>
+            <span class="text-green-600 font-medium">$250</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Healthy Dorper sheep, excellent for meat production</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $4,200</span>
+              <span>7 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 55%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="4300" step="50" placeholder="$4,300" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 5 - Equipment -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hay Baler" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 equipment-badge text-xs font-medium px-2 py-1 rounded">
+            Equipment
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">2d 6h 18m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">New Holland Hay Baler</h3>
+            <span class="text-green-600 font-medium">$8,750</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">2015 model, well-maintained, ready for season</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $7,800</span>
+              <span>4 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 35%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="8000" step="50" placeholder="$8,000" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 6 - Livestock -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Pigs" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 livestock-badge text-xs font-medium px-2 py-1 rounded">
+            Livestock
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">18h 42m 15s</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Berkshire Pigs (10 Head)</h3>
+            <span class="text-green-600 font-medium">$350</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Premium breeding stock, 6 months old</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $3,000</span>
+              <span>9 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 70%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="3100" step="50" placeholder="$3,100" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 7 - Equipment -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Tractor Implements" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 equipment-badge text-xs font-medium px-2 py-1 rounded">
+            Equipment
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">4d 1h 33m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Tractor Implements Set</h3>
+            <span class="text-green-600 font-medium">$3,200</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Complete set: plow, disc harrow, cultivator</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $2,750</span>
+              <span>3 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 30%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="2800" step="50" placeholder="$2,800" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 8 - Livestock -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1516467508483-721dd6b7e3e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Goats" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 livestock-badge text-xs font-medium px-2 py-1 rounded">
+            Livestock
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">1d 2h 45m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Boer Goats (12 Head)</h3>
+            <span class="text-green-600 font-medium">$200</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">Quality meat goats, 8-12 months old</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $2,100</span>
+              <span>6 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 50%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="2200" step="50" placeholder="$2,200" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Card 9 - Equipment -->
+      <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300">
+        <div class="relative">
+          <img src="https://images.unsplash.com/photo-1592841200211-9a5b5d0e0b7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Irrigation System" class="w-full h-48 object-cover">
+          <div class="absolute top-2 left-2 equipment-badge text-xs font-medium px-2 py-1 rounded">
+            Equipment
+          </div>
+          <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
+            <span>Ends in:</span>
+            <span class="font-mono">5d 3h 22m</span>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-lg font-semibold text-gray-800">Center Pivot Irrigation</h3>
+            <span class="text-green-600 font-medium">$15,000</span>
+          </div>
+          <p class="text-gray-600 text-sm mb-3">6-tower system, 1/4 mile length, good condition</p>
+          
+          
+          
+          <div class="mb-4">
+            <div class="flex justify-between text-xs text-gray-500 mb-1">
+              <span>Current Bid: $12,500</span>
+              <span>2 bids</span>
+            </div>
+            <div class="progress-bar rounded-full">
+              <div class="progress-fill rounded-full" style="width: 25%"></div>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <input type="number" min="13000" step="100" placeholder="$13,000" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm">
+            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700">
+              Bid
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center">
+      <nav class="inline-flex rounded-md shadow-sm">
+        <button class="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+          Previous
+        </button>
+        <button class="px-3 py-1 border-t border-b border-gray-300 bg-white text-green-600 font-medium">
+          1
+        </button>
+        <button class="px-3 py-1 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+          2
+        </button>
+        <button class="px-3 py-1 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+          3
+        </button>
+        <button class="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+          Next
+        </button>
+      </nav>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-12 pb-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">FarmAuction</h3>
+          <p class="text-gray-400">Connecting farmers directly with consumers for fair prices and fresh products.</p>
+          <div class="flex space-x-4 mt-4">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Products</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Auctions</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Farmers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Account</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white">Login</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Sign Up</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Seller Dashboard</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white">Purchase History</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Contact</h4>
+          <ul class="space-y-2">
+            <li class="text-gray-400"><i class="fas fa-envelope mr-2"></i> support@farmauction.com</li>
+            <li class="text-gray-400"><i class="fas fa-phone mr-2"></i> +1 (555) 123-4567</li>
+            <li class="text-gray-400"><i class="fas fa-map-marker-alt mr-2"></i> 123 Farm Rd, Fresno, CA</li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+        <p>&copy; 2023 FarmAuction. All rights reserved. | <a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Service</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Modal functionality
+    const addProductBtn = document.getElementById('addProductBtn');
+    const addProductModal = document.getElementById('addProductModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelAddProduct = document.getElementById('cancelAddProduct');
+
+    addProductBtn.addEventListener('click', () => {
+      addProductModal.classList.remove('hidden');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      addProductModal.classList.add('hidden');
+    });
+
+    cancelAddProduct.addEventListener('click', () => {
+      addProductModal.classList.add('hidden');
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+      if (event.target === addProductModal) {
+        addProductModal.classList.add('hidden');
+      }
+    });
+
+    // Image upload preview
+    const productImages = document.getElementById('productImages');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+    productImages.addEventListener('change', (event) => {
+      imagePreviewContainer.innerHTML = '';
+      const files = event.target.files;
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        if (!file.type.match('image.*')) continue;
+        
+        const reader = new FileReader();
+        reader.onload = (function(file) {
+          return function(e) {
+            const div = document.createElement('div');
+            div.className = 'relative';
+            
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'h-24 w-full object-cover rounded';
+            img.title = file.name;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs';
+            removeBtn.innerHTML = '×';
+            removeBtn.addEventListener('click', function() {
+              div.remove();
+            });
+            
+            div.appendChild(img);
+            div.appendChild(removeBtn);
+            imagePreviewContainer.appendChild(div);
+          };
+        })(file);
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Countdown timers for auctions
+    function updateCountdowns() {
+      const timers = document.querySelectorAll('.auction-timer span.font-mono');
+      timers.forEach(timer => {
+        const timeStr = timer.textContent;
+        const parts = timeStr.split(' ');
+        
+        let hours = parseInt(parts[0].replace('h', ''));
+        let minutes = parseInt(parts[1].replace('m', ''));
+        let seconds = parseInt(parts[2].replace('s', ''));
+        
+        // Decrement time
+        seconds--;
+        if (seconds < 0) {
+          seconds = 59;
+          minutes--;
+          if (minutes < 0) {
+            minutes = 59;
+            hours--;
+          }
+        }
+        
+        // Update display
+        timer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        
+        // If time runs out, update status
+        if (hours <= 0 && minutes <= 0 && seconds <= 0) {
+          timer.textContent = "Auction ended";
+        }
+      });
+    }
+    
+    // Update countdowns every second
+    setInterval(updateCountdowns, 1000);
+  </script>
+</body>
+</html>
