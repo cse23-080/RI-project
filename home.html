@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmAuction - Premium Farmers Marketplace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .hero-bg {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .auction-card {
+      transition: all 0.3s ease;
+    }
+    .auction-card:hover {
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .step-card:hover .step-icon {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body class="font-sans bg-gray-50">
+  <!-- Header with Navigation -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="text-2xl font-bold">
+          <span class="text-green-600">Farmers</span>
+          <span class="text-white-800">Auction</span>
+        </div>
+      </div>
+      
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">Home</a>
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">Products</a>
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">Farmers</a>
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">Cart</a>
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">About</a>
+      </nav>
+      
+      <div class="flex items-center space-x-4">
+        <button class="px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition">
+          <i class="fas fa-user mr-2"></i>User
+        </button>
+        <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+          <i class="fas fa-sign-out-alt mr-2"></i>LogOut
+        </button>
+        <button class="md:hidden text-gray-700">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-bg text-white py-20 md:py-32">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Farm Fresh Products Direct From Producers</h1>
+      <p class="text-xl mb-8 max-w-2xl mx-auto">Buy and bid on high-quality agricultural products directly from farmers across the country. Experience the future of farm-to-table commerce.</p>
+      
+      <div class="max-w-xl mx-auto relative">
+        <input 
+          type="text" 
+          id="searchInput"
+          placeholder="Search for products, livestock, machinery..." 
+          class="w-full py-4 px-6 rounded-full shadow-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+        <button 
+          class="absolute right-2 top-2 bg-green-600 text-white p-3 rounded-full hover:bg-green-700 transition"
+          aria-label="Search"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      
+      <!-- Search Results -->
+      <div id="searchResults" class="max-w-xl mx-auto mt-6 space-y-4">
+        <!-- Results will be injected here -->
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Featured Products</h2>
+        <div class="w-20 h-1 bg-green-600 mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Product Card 1 -->
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                 alt="Organic Tomatoes" class="w-full h-64 object-cover">
+            <span class="absolute top-4 left-4 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">Organic</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-1">Farm Milk</h3>
+            <p class="text-green-600 text-sm mb-2">Green Valley Farms</p>
+            <p class="text-2xl font-bold text-gray-800 mb-3">$2.99/1l</p>
+            <div class="flex justify-between text-sm text-gray-600 mb-4">
+              <span>20 lbs available</span>
+              <span class="text-yellow-500">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span class="text-gray-600 ml-1">(24)</span>
+              </span>
+            </div>
+            <button class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+            onclick="addToCart('Farm Milk' )">
+              <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+            </button>
+          </div>
+        </div>
+        
+        <!-- Product Card 2 -->
+        <div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                 alt="Fresh Eggs" class="w-full h-64 object-cover">
+            <span class="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Free Range</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-semibold text-gray-800 mb-1">Fresh Eggs (Dozen)</h3>
+            <p class="text-green-600 text-sm mb-2">Sunny Side Farm</p>
+            <p class="text-2xl font-bold text-gray-800 mb-3">$3.50</p>
+            <div class="flex justify-between text-sm text-gray-600 mb-4">
+              <span>15 available</span>
+              <span class="text-yellow-500">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span class="text-gray-600 ml-1">(36)</span>
+              </span>
+            </div>
+            <button 
+              class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition"
+              onclick="addToCart('Fresh Eggs')">
+              <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+            </button>
+
+          </div>
+        </div>
+        
+        <!-- Product Card 3 -->
+<div class="product-card bg-white rounded-lg overflow-hidden shadow-md transition duration-300">
+  <div class="relative">
+    <img src="https://images.unsplash.com/photo-1594282416549-65a935fd1f40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+         alt="Tractor" class="w-full h-64 object-cover">
+    <span class="absolute top-4 left-4 bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">Certified</span>
+  </div>
+  <div class="p-6">
+    <h3 class="text-xl font-semibold text-gray-800 mb-1">John Deere Tractor</h3>
+    <p class="text-green-600 text-sm mb-2">Smith Equipment</p>
+    <p class="text-2xl font-bold text-gray-800 mb-3">$12,500</p>
+    <div class="flex justify-between text-sm text-gray-600 mb-4">
+      <span>Used - Excellent</span>
+      <span class="text-yellow-500">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="far fa-star"></i>
+        <span class="text-gray-600 ml-1">(12)</span>
+      </span>
+    </div>
+
+    <!-- Make Offer Button -->
+    <button 
+      class="w-full bg-yellow-500 text-white py-2 rounded-md hover:bg-yellow-600 transition"
+      onclick="toggleBidForm('bid-form-tractor')">
+      <i class="fas fa-gavel mr-2"></i>Make Offer
+    </button>
+
+    <!-- Bid Form -->
+    <div id="bid-form-tractor" class="mt-4 hidden">
+      <input type="number" id="bid-input-tractor" placeholder="Enter your bid (Pula)" 
+             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-yellow-500 mb-2">
+      <button 
+        onclick="placeBid('John Deere Tractor', 'bid-input-tractor', 'bid-msg-tractor')" 
+        class="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition">
+        Submit Bid
+      </button>
+      <div id="bid-msg-tractor" class="mt-2 text-green-600 text-sm font-medium"></div>
+    </div>
+  </div>
+</div>
+
+      </div>
+      
+      <div class="text-center mt-10">
+        <button class="px-6 py-3 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition font-medium">
+          View All Products <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Auctions Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Live Auctions</h2>
+        <div class="w-20 h-1 bg-green-600 mx-auto"></div>
+      </div>
+      
+      <div class="auction-card bg-white rounded-lg shadow-md overflow-hidden max-w-4xl mx-auto">
+        <div class="flex justify-between items-center p-6 border-b">
+          <h3 class="text-xl font-bold text-gray-800">Angus Cattle (Lot of 5)</h3>
+          <div class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold">
+            <i class="fas fa-clock mr-1"></i> Ends in 2h 45m
+          </div>
+        </div>
+        
+        <div class="md:flex">
+          <div class="md:w-1/3">
+            <img src="https://images.unsplash.com/photo-1549318867-3f81dbcd8f0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                 alt="Angus Cattle" class="w-full h-64 md:h-full object-cover">
+          </div>
+          
+          <div class="p-6 md:w-2/3">
+            <p class="text-gray-700 mb-6">Premium quality Angus cattle from Rolling Hills Ranch. These 18-month-old steers have been pasture-raised with no antibiotics or hormones. Excellent genetics and health records available.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-home text-green-600 mr-3"></i>
+                <span>Rolling Hills Ranch</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-map-marker-alt text-green-600 mr-3"></i>
+                <span>Springfield, MO</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-tractor text-green-600 mr-3"></i>
+                <span>Starting Bid: $2,500</span>
+              </div>
+              <div class="flex items-center text-gray-700">
+                <i class="fas fa-tag text-green-600 mr-3"></i>
+                <span>Livestock > Cattle</span>
+              </div>
+            </div>
+            
+            <div class="bg-green-50 p-4 rounded-lg mb-6">
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="text-sm text-gray-600">Current Bid</p>
+                  <p class="text-2xl font-bold text-green-600">$3,200</p>
+                </div>
+                <div class="text-sm text-gray-600">
+                  <span>12 bids placed</span>
+                  <span class="mx-2">•</span>
+                  <span>8 watchers</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-3">
+              <input type="number" placeholder="Enter your bid ($3,300 minimum)" 
+                     class="flex-grow px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+              <button class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition font-medium">
+                <i class="fas fa-gavel mr-2"></i> Place Bid
+              </button>
+              <button class="border border-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-50 transition font-medium">
+                <i class="far fa-heart mr-2"></i> Watch
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-10">
+        <button class="px-6 py-3 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition font-medium">
+          View All Auctions <i class="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">How It Works</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">Simple steps to buy fresh farm products or participate in exciting auctions</p>
+        <div class="w-20 h-1 bg-green-600 mx-auto mt-2"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="step-card bg-gray-50 p-8 rounded-lg text-center hover:shadow-md transition duration-300">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="step-icon text-green-600 text-2xl transition duration-300">
+              <i class="fas fa-search"></i>
+            </div>
+          </div>
+          <div class="text-xl font-bold text-gray-800 mb-2">Browse Listings</div>
+          <p class="text-gray-600">Find fresh produce, livestock, equipment and more from local farmers.</p>
+        </div>
+        
+        <div class="step-card bg-gray-50 p-8 rounded-lg text-center hover:shadow-md transition duration-300">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="step-icon text-green-600 text-2xl transition duration-300">
+              <i class="fas fa-dollar-sign"></i>
+            </div>
+          </div>
+          <div class="text-xl font-bold text-gray-800 mb-2">Buy or Bid</div>
+          <p class="text-gray-600">Purchase directly or participate in live auctions for the best deals.</p>
+        </div>
+        
+        <div class="step-card bg-gray-50 p-8 rounded-lg text-center hover:shadow-md transition duration-300">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="step-icon text-green-600 text-2xl transition duration-300">
+              <i class="fas fa-lock"></i>
+            </div>
+          </div>
+          <div class="text-xl font-bold text-gray-800 mb-2">Secure Payment</div>
+          <p class="text-gray-600">Complete transactions safely through our protected payment system.</p>
+        </div>
+        
+        <div class="step-card bg-gray-50 p-8 rounded-lg text-center hover:shadow-md transition duration-300">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div class="step-icon text-green-600 text-2xl transition duration-300">
+              <i class="fas fa-truck"></i>
+            </div>
+          </div>
+          <div class="text-xl font-bold text-gray-800 mb-2">Receive Goods</div>
+          <p class="text-gray-600">Arrange pickup or delivery directly with the farmer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 bg-green-600 text-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-2">What Our Customers Say</h2>
+        <div class="w-20 h-1 bg-white mx-auto"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-bold">Sarah Johnson</h4>
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <p>"The quality of produce I've received through FarmAuction is unmatched. I love knowing exactly which farm my food comes from!"</p>
+        </div>
+        
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-bold">Michael Brown</h4>
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+          <p>"As a small restaurant owner, FarmAuction has been a game-changer for sourcing high-quality ingredients at fair prices."</p>
+        </div>
+        
+        <div class="bg-white bg-opacity-10 p-6 rounded-lg">
+          <div class="flex items-center mb-4">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Customer" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h4 class="font-bold">Emma Wilson</h4>
+              <div class="text-yellow-400">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+          <p>"The auction system helped me get a great deal on farm equipment I needed. The whole process was smooth and transparent."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="py-16 bg-gray-100">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <div class="bg-white rounded-lg shadow-md p-8 md:p-10 text-center">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Stay Updated</h2>
+        <p class="text-gray-600 mb-6">Subscribe to our newsletter for the latest products, auctions, and farming news.</p>
+        
+        <div class="flex flex-col md:flex-row gap-2 max-w-md mx-auto">
+          <input type="email" placeholder="Your email address" 
+                 class="flex-grow px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
+          <button class="bg-green-600 text-white px-6 py-3 rounded-md hover:bg-green-700 transition font-medium">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white pt-16 pb-8">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div>
+          <h3 class="text-xl font-bold mb-4">FarmAuction</h3>
+          <p class="text-gray-400 mb-4">Connecting farmers directly with consumers for fair prices and fresh products. Our mission is to revolutionize agricultural commerce through technology.</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Products</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Auctions</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Farmers</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Account</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Login</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Cart</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Seller Dashboard</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">Purchase History</a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition">My Bids</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Contact</h3>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-headset text-green-500 mt-1 mr-3"></i>
+              <div>
+                <a href="#" class="text-gray-400 hover:text-white transition">Help Center</a>
+                <p class="text-xs text-gray-500">24/7 support</p>
+              </div>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope text-green-500 mr-3"></i>
+              <a href="#" class="text-gray-400 hover:text-white transition">support@FarmAuction.com</a>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt text-green-500 mr-3"></i>
+              <span class="text-gray-400">+267 78256364/77025359</span>
+            </li>
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
+              <span class="text-gray-400">123 Farm Road, Agricultural Zone, Gaborone</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-700 pt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 FarmAuction. All rights reserved.</p>
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white transition text-sm">Privacy Policy</a>
+            <a href="#" class="text-gray-400 hover:text-white transition text-sm">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white transition text-sm">Cookie Policy</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    
+  // Show/hide bid form
+  function toggleBidForm(id) {
+    const form = document.getElementById(id);
+    form.classList.toggle('hidden');
+  }
+
+  // Store bid and show confirmation
+  function placeBid(productName, inputId, msgId) {
+    const input = document.getElementById(inputId);
+    const message = document.getElementById(msgId);
+    const bidAmount = parseFloat(input.value);
+
+    if (!bidAmount || bidAmount <= 0) {
+      alert('Please enter a valid bid amount.');
+      return;
+    }
+
+    const bids = JSON.parse(localStorage.getItem('bids')) || [];
+    bids.push({ product: productName, amount: bidAmount });
+    localStorage.setItem('bids', JSON.stringify(bids));
+
+    message.textContent = `You placed a bid of P${bidAmount.toFixed(2)} for "${productName}"`;
+    input.value = '';
+  }
+
+
+
+
+  function addToCart(productName) {
+    // Get existing cart or create a new one
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Add new product to cart
+    cart.push({ name: productName, quantity: 1 });
+
+    // Save updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Redirect to cart page
+    window.location.href = 'cart.html';
+  }
+
+
+
+    // Example data (you can load this from your DB or API)
+    const items = [
+      "Tractor",
+      "Harvester",
+      "Goat",
+      "Cow",
+      "Organic Fertilizer",
+      "Seed Drill",
+      "Poultry Feeds",
+      "Irrigation System",
+      "Milk Processing Machine"
+    ];
+  
+    const input = document.getElementById('searchInput');
+    const resultsContainer = document.getElementById('searchResults');
+  
+    input.addEventListener('input', () => {
+      const query = input.value.trim().toLowerCase();
+      resultsContainer.innerHTML = ''; // Clear previous results
+  
+      if (query === '') return;
+  
+      const filteredItems = items.filter(item => item.toLowerCase().includes(query));
+  
+      if (filteredItems.length === 0) {
+        resultsContainer.innerHTML = '<p class="text-gray-500">No results found.</p>';
+        return;
+      }
+  
+      filteredItems.forEach(item => {
+        const div = document.createElement('div');
+        div.textContent = item;
+        div.className = "p-4 bg-white rounded-lg shadow text-gray-800";
+        resultsContainer.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>
