@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmAuction - Secure Payment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Modern CSS Reset */
+    :root {
+      --primary: #3a7d44;
+      --primary-dark: #2d6144;
+      --primary-light: #7fb069;
+      --secondary: #ffc857;
+      --accent: #e9724c;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --white: #ffffff;
+      
+      /* Animation variables */
+      --transition-fast: 0.2s;
+      --transition-medium: 0.4s;
+      --transition-slow: 0.6s;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      
+      /* Enable hardware acceleration for smooth scrolling */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* 120Hz Smooth Scrolling */
+    @media (prefers-reduced-motion: no-preference) {
+      html {
+        scroll-behavior: smooth;
+      }
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Smooth animations */
+    a, button, .product-card, .nav-links a {
+      transition: all var(--transition-medium) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Modern Header with Glass Morphism */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .nav-logo{
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }  
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: width var(--transition-medium) ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* Modern Button Styles */
+    .btn {
+      padding: 0.7rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all var(--transition-fast) ease-out;
+      transform: translateY(0);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-accent {
+      background-color: var(--secondary);
+      color: var(--dark);
+    }
+
+    .btn-accent:hover {
+      background-color: var(--accent);
+      color: var(--white);
+    }
+
+    /* Main Content Container */
+    .container {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 2rem;
+      animation: fadeIn var(--transition-slow) ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 3rem;
+      color: var(--primary-dark);
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    /* Payment Page Styles */
+    .payment-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .payment-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .payment-card {
+      background-color: var(--white);
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: transform var(--transition-medium) ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .payment-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .payment-header {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .payment-header::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.2rem;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all var(--transition-fast) ease;
+    }
+
+    .payment-method:hover {
+      border-color: var(--primary-light);
+    }
+
+    .payment-method.active {
+      border-color: var(--primary);
+      background-color: rgba(58, 125, 68, 0.05);
+    }
+
+    .payment-method-icon {
+      font-size: 1.8rem;
+      color: var(--gray);
+    }
+
+    .payment-method.active .payment-method-icon {
+      color: var(--primary);
+    }
+
+    .payment-method-info {
+      flex: 1;
+    }
+
+    .payment-method-title {
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .payment-method-desc {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .payment-method-check {
+      color: var(--primary);
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity var(--transition-fast) ease;
+    }
+
+    .payment-method.active .payment-method-check {
+      opacity: 1;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all var(--transition-fast) ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(58, 125, 68, 0.2);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .payment-summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .payment-summary-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .secure-payment {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .secure-payment i {
+      color: var(--primary);
+    }
+
+    /* Delivery Info */
+    .delivery-info {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .delivery-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .delivery-icon {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-top: 0.3rem;
+    }
+
+    .delivery-content h4 {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .delivery-content p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      html {
+        font-size: 15px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .section-title {
+        font-size: 1.8rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .payment-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Footer with Gradient */
+    footer {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: var(--white);
+      padding: 5rem 0 2rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      padding: 0 2rem;
+    }
+
+    .footer-column h3 {
+      margin-bottom: 1.8rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+    }
+
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50%;
+      height: 2px;
+      background-color: var(--secondary);
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-column ul li a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color var(--transition-fast) ease;
+      display: inline-block;
+      padding: 0.2rem 0;
+    }
+
+    .footer-column ul li a:hover {
+      color: var(--white);
+      transform: translateX(5px);
+    }
+
+    .footer-about p {
+      opacity: 0.8;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: all var(--transition-fast) ease;
+    }
+
+    .social-links a:hover {
+      background-color: var(--secondary);
+      color: var(--dark);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Modern Header with Glass Morphism -->
+  <header>
+    <div class="navbar">
+      <a href="#" class="nav-logo">
+        <i class="fas fa-leaf"></i>
+        <span>Farm</span><span>Auction</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#">Farmers</a>
+        <a href="#">Cart</a>
+        <a href="#">About</a>
+      </nav>
+      
+      <div class="auth-buttons">
+        <button class="btn btn-outline">
+          <i class="fas fa-user"></i> Account
+        </button>
+        <button class="btn btn-primary">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Payment Content -->
+  <main class="container">
+    <h1 class="section-title">Complete Your Payment</h1>
+    
+    <div class="payment-container">
+      <!-- Payment Methods Column -->
+      <div class="payment-methods">
+        <div class="payment-card">
+          <h2 class="payment-header">Payment Method</h2>
+          
+          <div class="payment-method active">
+            <div class="payment-method-icon">
+              <i class="fab fa-cc-visa"></i>
+            </div>
+            <div class="payment-method-info">
+              <div class="payment-method-title">Credit/Debit Card</div>
+              <div class="payment-method-desc">Pay with Visa, Mastercard, etc.</div>
+            </div>
+            <div class="payment-method-check">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          
+          <div class="payment-method">
+            <div class="payment-method-icon">
+              <i class="fab fa-paypal"></i>
+            </div>
+            <div class="payment-method-info">
+              <div class="payment-method-title">PayPal</div>
+              <div class="payment-method-desc">Pay with your PayPal account</div>
+            </div>
+            <div class="payment-method-check">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          
+          <div class="payment-method">
+            <div class="payment-method-icon">
+              <i class="fas fa-university"></i>
+            </div>
+            <div class="payment-method-info">
+              <div class="payment-method-title">Bank Transfer</div>
+              <div class="payment-method-desc">Direct transfer from your bank</div>
+            </div>
+            <div class="payment-method-check">
+              <i class="fas fa-check-circle"></i>
+            </div>
+          </div>
+          
+          <!-- Card Details Form -->
+          <div class="card-details">
+            <div class="form-group">
+              <label class="form-label">Card Number</label>
+              <div class="relative">
+                <input type="text" placeholder="1234 5678 9012 3456" class="form-input">
+                <i class="fas fa-credit-card absolute right-3 top-3 text-gray-400"></i>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Expiration Date</label>
+                <input type="text" placeholder="MM/YY" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Security Code</label>
+                <input type="text" placeholder="CVC" class="form-input">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Name on Card</label>
+              <input type="text" placeholder="John Doe" class="form-input">
+            </div>
+          </div>
+          
+          <!-- Billing Address -->
+          <div class="billing-address">
+            <h3 class="payment-header">Billing Address</h3>
+            
+            <div class="form-group">
+              <label class="form-label">Country</label>
+              <select class="form-input">
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+                <option>Botswana</option>
+                <option>Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Street Address</label>
+              <input type="text" placeholder="123 Farm Road" class="form-input mb-2">
+              <input type="text" placeholder="Apt, suite, etc. (optional)" class="form-input">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input type="text" placeholder="Gaborone" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">State/Province</label>
+                <input type="text" placeholder="South East" class="form-input">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">ZIP/Postal Code</label>
+              <input type="text" placeholder="12345" class="form-input">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Order Summary Column -->
+      <div class="order-summary">
+        <div class="payment-card">
+          <h2 class="payment-header">Order Summary</h2>
+          
+          <div class="payment-summary">
+            <div class="payment-summary-item">
+              <span>Organic Tomatoes (5 lbs)</span>
+              <span>$14.95</span>
+            </div>
+            <div class="payment-summary-item">
+              <span>Free Range Eggs (2 dozen)</span>
+              <span>$7.00</span>
+            </div>
+            <div class="payment-summary-item">
+              <span>Shipping</span>
+              <span>$5.99</span>
+            </div>
+            <div class="payment-summary-item">
+              <span>Tax</span>
+              <span>$1.80</span>
+            </div>
+            <div class="payment-summary-total">
+              <span>Total</span>
+              <span>$29.74</span>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary w-full py-3 text-lg">
+            <i class="fas fa-lock mr-2"></i> Confirm Payment
+          </button>
+          
+          <div class="secure-payment">
+            <i class="fas fa-lock"></i>
+            <span>Secure SSL Encryption</span>
+          </div>
+          
+          <!-- Delivery Information -->
+          <div class="delivery-info">
+            <h3 class="payment-header">Delivery Information</h3>
+            
+            <div class="delivery-item">
+              <div class="delivery-icon">
+                <i class="fas fa-truck"></i>
+              </div>
+              <div class="delivery-content">
+                <h4>Standard Delivery</h4>
+                <p>Estimated arrival: 2-3 business days</p>
+              </div>
+            </div>
+            
+            <div class="delivery-item">
+              <div class="delivery-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <div class="delivery-content">
+                <h4>Delivery Address</h4>
+                <p>
+                  123 Farm Road<br>
+                  Gaborone, South East 12345<br>
+                  Botswana
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column footer-about">
+        <h3>FarmAuction</h3>
+        <p>Connecting farmers directly with consumers for fair prices and fresh products.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Products</a></li>
+          <li><a href="#">Farmers</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Help & Support</h3>
+        <ul>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Returns Policy</a></li>
+          <li><a href="#">Payment Options</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>
+            <i class="fas fa-envelope mr-2"></i>
+            <a href="mailto:support@FarmAuction.com">support@FarmAuction.com</a>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt mr-2"></i>
+            <span>+267 78256364</span>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt mr-2"></i>
+            <span>123 Farm Road, Gaborone</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; 2023 FarmAuction. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Payment method selection
+      const paymentMethods = document.querySelectorAll('.payment-method');
+      paymentMethods.forEach(method => {
+        method.addEventListener('click', function() {
+          paymentMethods.forEach(m => m.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+      
+      // Confirm payment button
+      const confirmBtn = document.querySelector('.btn-primary');
+      if (confirmBtn) {
+        confirmBtn.addEventListener('click', function() {
+          // In a real implementation, this would process the payment
+          alert('Payment processed successfully! Thank you for your purchase.');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
