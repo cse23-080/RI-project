@@ -40,10 +40,52 @@
       transform: scale(1.1);
     }
     
+    .sidebar-item-active {
+      @apply bg-green-50 text-farm-green;
+    }
+    
+    .sidebar-item {
+      @apply text-gray-600 hover:bg-gray-50;
+    }
+    
     @media (max-width: 767px) {
       .mobile-padding {
         @apply px-4;
       }
+    }
+    
+    .page-container {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    .page-container.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .tab-indicator {
+      position: relative;
+    }
+    
+    .tab-indicator::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      height: 3px;
+      width: 100%;
+      background: #2e7d32;
+      border-radius: 2px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .tab-indicator.active-tab::after {
+      opacity: 1;
     }
   </style>
 </head>
@@ -57,14 +99,14 @@
           <span class="text-gray-800">Auction</span>
         </div>
       </div>
-            
+      
       <nav class="hidden md:flex space-x-8">
-        <a href="file:///T:/Farmers%20Auction/home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
+        <a href="home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
         <a href="products.html" class="text-gray-700 hover:text-farm-green font-medium transition">Products</a>
         <a href="auctions.html" class="text-gray-700 hover:text-farm-green font-medium transition">Auctions</a>
-        <a href="user.html" class="text-farm-green font-medium transition">My Profile</a>
+        <a href="user.html" class="text-farm-green font-medium transition tab-indicator active-tab">My Profile</a>
       </nav>
-            
+      
       <div class="flex items-center space-x-4">
         <button id="logoutBtn" class="px-4 py-2 bg-farm-green text-white rounded-md hover:bg-farm-dark-green transition">
           <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -78,7 +120,7 @@
     <!-- Mobile Navigation -->
     <div id="mobileMenu" class="hidden md:hidden bg-white py-3 px-4 border-t">
       <div class="flex flex-col space-y-3">
-        <a href="file:///T:/Farmers%20Auction/home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
+        <a href="home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
         <a href="products.html" class="text-gray-700 hover:text-farm-green font-medium transition">Products</a>
         <a href="auctions.html" class="text-gray-700 hover:text-farm-green font-medium transition">Auctions</a>
         <a href="user.html" class="text-farm-green font-medium transition">My Profile</a>
@@ -100,8 +142,8 @@
         <div class="mb-5">
           <label class="block text-gray-700 text-sm font-medium mb-2" for="currentPassword">Current Password</label>
           <div class="relative">
-            <input type="password" id="currentPassword" 
-                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <input type="password" id="currentPassword"
+                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
             <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="currentPassword">
               <i class="far fa-eye"></i>
             </button>
@@ -111,8 +153,8 @@
         <div class="mb-5">
           <label class="block text-gray-700 text-sm font-medium mb-2" for="newPassword">New Password</label>
           <div class="relative">
-            <input type="password" id="newPassword" 
-                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <input type="password" id="newPassword"
+                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
             <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="newPassword">
               <i class="far fa-eye"></i>
             </button>
@@ -123,8 +165,8 @@
         <div class="mb-6">
           <label class="block text-gray-700 text-sm font-medium mb-2" for="confirmPassword">Confirm New Password</label>
           <div class="relative">
-            <input type="password" id="confirmPassword" 
-                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <input type="password" id="confirmPassword"
+                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
             <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="confirmPassword">
               <i class="far fa-eye"></i>
             </button>
@@ -177,31 +219,31 @@
             <h2 class="text-xl font-bold text-gray-800" id="userFullName">John Farmer</h2>
             <p class="text-gray-600 text-sm"><i class="far fa-calendar mr-1"></i> Member since <span id="memberSince">June 2022</span></p>
           </div>
-                    
+          
           <nav class="p-4">
             <ul class="space-y-2">
               <li>
-                <a href="#" class="flex items-center px-4 py-3 bg-green-50 text-farm-green rounded-lg font-medium">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg font-medium sidebar-item-active" data-tab="profile">
                   <i class="fas fa-user-circle mr-3 text-lg"></i> Profile
                 </a>
               </li>
               <li>
-                <a href="orders.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg transition sidebar-item" data-tab="orders">
                   <i class="fas fa-shopping-bag mr-3 text-lg"></i> My Orders
                 </a>
               </li>
               <li>
-                <a href="bids.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg transition sidebar-item" data-tab="bids">
                   <i class="fas fa-gavel mr-3 text-lg"></i> My Bids
                 </a>
               </li>
               <li>
-                <a href="listings.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg transition sidebar-item" data-tab="listings">
                   <i class="fas fa-list-alt mr-3 text-lg"></i> My Listings
                 </a>
               </li>
               <li>
-                <a href="settings.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                <a href="#" class="flex items-center px-4 py-3 rounded-lg transition sidebar-item" data-tab="settings">
                   <i class="fas fa-cog mr-3 text-lg"></i> Account Settings
                 </a>
               </li>
@@ -232,7 +274,8 @@
 
       <!-- Main Content -->
       <div class="flex-1">
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow">
+        <!-- Profile Page -->
+        <div id="profilePage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container active">
           <!-- Profile Header -->
           <div class="border-b p-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -252,33 +295,33 @@
                   <i class="fas fa-user-circle text-farm-green mr-2"></i> Personal Information
                 </h2>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="firstName">First Name</label>
-                <input type="text" id="firstName" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="firstName"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="lastName">Last Name</label>
-                <input type="text" id="lastName" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="lastName"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="email">Email Address</label>
-                <input type="email" id="email" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="email" id="email"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
-                <input type="tel" id="phone" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="tel" id="phone"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
 
               <!-- Address Information -->
@@ -287,40 +330,40 @@
                   <i class="fas fa-map-marker-alt text-farm-green mr-2"></i> Address Information
                 </h2>
               </div>
-                            
+              
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="street">Street Address</label>
-                <input type="text" id="street" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="street"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="city">City</label>
-                <input type="text" id="city" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="city"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="region">Region</label>
-                <input type="text" id="region" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="region"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="postalCode">Postal Code</label>
-                <input type="text" id="postalCode" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="postalCode"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="country">Country</label>
-                <select id="country" 
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed" 
-                        disabled>
+                <select id="country"
+                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
+                         disabled>
                   <option value="Botswana">Botswana</option>
                   <option value="South Africa">South Africa</option>
                   <option value="Zimbabwe">Zimbabwe</option>
@@ -334,41 +377,41 @@
                   <i class="fas fa-tractor text-farm-green mr-2"></i> Farm Information
                 </h2>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="farmName">Farm Name</label>
-                <input type="text" id="farmName" 
-                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
-                       disabled>
+                <input type="text" id="farmName"
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                        disabled>
               </div>
-                            
+              
               <div>
                 <label class="block text-gray-700 mb-2" for="farmType">Farm Type</label>
-                <select id="farmType" 
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed" 
-                        disabled>
+                <select id="farmType"
+                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
+                         disabled>
                   <option value="Crop">Crop Production</option>
                   <option value="Livestock">Livestock</option>
                   <option value="Mixed">Mixed Farming</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
-                            
+              
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="farmDescription">Farm Description</label>
-                <textarea id="farmDescription" rows="3" 
-                          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                <textarea id="farmDescription" rows="3"
+                          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
                           disabled></textarea>
               </div>
 
               <!-- Form Actions -->
               <div class="md:col-span-2 flex justify-end space-x-4 pt-6 border-t">
-                <button type="button" id="cancelEditBtn" 
-                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium hidden">
+                <button type="button" id="cancelEditBtn"
+                         class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium hidden">
                   Cancel
                 </button>
-                <button type="submit" id="saveProfileBtn" 
-                        class="px-6 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium hidden">
+                <button type="submit" id="saveProfileBtn"
+                         class="px-6 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium hidden">
                   Save Changes
                 </button>
               </div>
@@ -376,46 +419,405 @@
           </form>
         </div>
 
-        <!-- Account Security Card -->
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden mt-8 profile-shadow">
+        <!-- Orders Page -->
+        <div id="ordersPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
           <div class="border-b p-6">
-            <h2 class="text-xl font-bold text-gray-800 flex items-center">
-              <i class="fas fa-shield-alt text-farm-green mr-3"></i> Account Security
-            </h2>
+            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+              <i class="fas fa-shopping-bag text-farm-green mr-3"></i> My Orders
+            </h1>
           </div>
+          
           <div class="p-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b">
-              <div>
-                <h3 class="font-semibold text-gray-800">Password</h3>
-                <p class="text-gray-600 mt-1">Last changed <span id="passwordLastChanged">3 months ago</span></p>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Order #
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Items
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Total
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <a href="#" class="text-farm-green hover:underline">ORD-2345</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      12 Nov 2023
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      Maize (50kg)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      $450.00
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                        Delivered
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <a href="#" class="text-farm-green hover:underline">ORD-1872</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      05 Nov 2023
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      Tomatoes (30kg), Potatoes (40kg)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      $320.00
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                        Processing
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <a href="#" class="text-farm-green hover:underline">ORD-1567</a>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      28 Oct 2023
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      Wheat (60kg)
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      $480.00
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                        Shipped
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bids Page -->
+        <div id="bidsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
+          <div class="border-b p-6">
+            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+              <i class="fas fa-gavel text-farm-green mr-3"></i> My Bids
+            </h1>
+          </div>
+          
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Bid Card -->
+              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-bold text-lg text-gray-800">Maize Auction</h3>
+                    <p class="text-gray-600 text-sm mt-1">Ends: <span class="font-medium">Today, 5:00 PM</span></p>
+                  </div>
+                  <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                    Active
+                  </span>
+                </div>
+                <div class="mt-4">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-gray-600">Your Bid</span>
+                    <span class="font-semibold">$420.00</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Current Highest</span>
+                    <span class="font-semibold text-farm-green">$430.00</span>
+                  </div>
+                  <button class="mt-4 w-full py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
+                    Increase Bid
+                  </button>
+                </div>
               </div>
-              <button id="changePasswordBtn" class="mt-3 md:mt-0 px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
-                <i class="fas fa-key mr-2"></i> Change Password
+              
+              <!-- Bid Card -->
+              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-bold text-lg text-gray-800">Fresh Tomatoes</h3>
+                    <p class="text-gray-600 text-sm mt-1">Ended: <span class="font-medium">5 Nov, 2:30 PM</span></p>
+                  </div>
+                  <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-semibold rounded-full">
+                    Closed
+                  </span>
+                </div>
+                <div class="mt-4">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-gray-600">Your Bid</span>
+                    <span class="font-semibold">$180.00</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Winning Bid</span>
+                    <span class="font-semibold text-farm-green">$190.00</span>
+                  </div>
+                  <div class="mt-4 text-center py-2 bg-gray-50 rounded-lg">
+                    <p class="text-gray-600">You didn't win this auction</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Bid Card -->
+              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h3 class="font-bold text-lg text-gray-800">Premium Cotton</h3>
+                    <p class="text-gray-600 text-sm mt-1">Ended: <span class="font-medium">28 Oct, 4:15 PM</span></p>
+                  </div>
+                  <span class="px-2 py-1 bg-green-800 text-white text-xs font-semibold rounded-full">
+                    Won
+                  </span>
+                </div>
+                <div class="mt-4">
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-gray-600">Your Winning Bid</span>
+                    <span class="font-semibold">$680.00</span>
+                  </div>
+                  <div class="mt-4 flex justify-between space-x-2">
+                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+                      View Order
+                    </button>
+                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
+                      Rate Product
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Listings Page -->
+        <div id="listingsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
+          <div class="border-b p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+                <i class="fas fa-list-alt text-farm-green mr-3"></i> My Listings
+              </h1>
+              <button class="px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
+                <i class="fas fa-plus mr-2"></i> New Listing
               </button>
             </div>
-                        
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h3 class="font-semibold text-gray-800">Two-Factor Authentication</h3>
-                <p class="text-gray-600 mt-1">Add extra security to your account</p>
+          </div>
+          
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Listing Card -->
+              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-48 bg-gradient-to-br from-farm-green to-green-300 flex items-center justify-center">
+                  <i class="fas fa-image text-white text-5xl opacity-30"></i>
+                </div>
+                <div class="p-5">
+                  <div class="flex justify-between items-start">
+                    <h3 class="font-bold text-lg text-gray-800">Maize - Premium Quality</h3>
+                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+                      Active
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">High-quality maize from sustainable farming practices.</p>
+                  <div class="flex justify-between items-center mt-4">
+                    <span class="text-gray-700 font-medium">$8.50/kg</span>
+                    <span class="text-gray-600 text-sm">Min: 50kg</span>
+                  </div>
+                  <div class="flex justify-between space-x-2 mt-4">
+                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+                      <i class="fas fa-edit mr-1"></i> Edit
+                    </button>
+                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
+                      <i class="fas fa-chart-line mr-1"></i> Stats
+                    </button>
+                  </div>
+                </div>
               </div>
-              <button class="mt-3 md:mt-0 px-4 py-2 border border-farm-green text-farm-green rounded-lg hover:bg-green-50 transition font-medium flex items-center">
-                <i class="fas fa-mobile-alt mr-2"></i> Enable 2FA
-              </button>
+              
+              <!-- Listing Card -->
+              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-48 bg-gradient-to-br from-farm-dark-green to-green-400 flex items-center justify-center">
+                  <i class="fas fa-image text-white text-5xl opacity-30"></i>
+                </div>
+                <div class="p-5">
+                  <div class="flex justify-between items-start">
+                    <h3 class="font-bold text-lg text-gray-800">Organic Tomatoes</h3>
+                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
+                      Pending
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">Fresh, organically grown tomatoes with excellent flavor.</p>
+                  <div class="flex justify-between items-center mt-4">
+                    <span class="text-gray-700 font-medium">$6.00/kg</span>
+                    <span class="text-gray-600 text-sm">Min: 20kg</span>
+                  </div>
+                  <div class="flex justify-between space-x-2 mt-4">
+                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+                      <i class="fas fa-edit mr-1"></i> Edit
+                    </button>
+                    <button class="flex-1 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-not-allowed font-medium opacity-50">
+                      <i class="fas fa-chart-line mr-1"></i> Stats
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Listing Card -->
+              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-48 bg-gradient-to-br from-gray-400 to-gray-200 flex items-center justify-center">
+                  <i class="fas fa-image text-gray-600 text-5xl opacity-30"></i>
+                </div>
+                <div class="p-5">
+                  <div class="flex justify-between items-start">
+                    <h3 class="font-bold text-lg text-gray-800">Quality Potatoes</h3>
+                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-semibold rounded-full">
+                      Closed
+                    </span>
+                  </div>
+                  <p class="text-gray-600 text-sm mt-2">Large potatoes perfect for various cooking needs.</p>
+                  <div class="flex justify-between items-center mt-4">
+                    <span class="text-gray-700 font-medium">$4.00/kg</span>
+                    <span class="text-gray-600 text-sm">Min: 40kg</span>
+                  </div>
+                  <div class="flex justify-between space-x-2 mt-4">
+                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+                      <i class="fas fa-redo mr-1"></i> Relist
+                    </button>
+                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
+                      <i class="fas fa-chart-line mr-1"></i> Stats
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Settings Page -->
+        <div id="settingsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
+          <div class="border-b p-6">
+            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+              <i class="fas fa-cog text-farm-green mr-3"></i> Account Settings
+            </h1>
+          </div>
+          
+          <div class="p-6">
+            <!-- Payment Method Card -->
+            <div class="border rounded-lg p-5 shadow-sm mb-6">
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">Payment Methods</h2>
+                <button class="px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
+                  <i class="fas fa-plus mr-2"></i> Add Method
+                </button>
+              </div>
+              
+              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center">
+                  <div class="w-12 h-8 bg-gray-700 rounded flex items-center justify-center mr-4">
+                    <i class="fas fa-credit-card text-white"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-medium">Visa ending in 7890</h3>
+                    <p class="text-sm text-gray-600">Expires 12/2025</p>
+                  </div>
+                </div>
+                <button class="text-gray-500 hover:text-red-500">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
             </div>
             
-            <!-- Login Security Alert -->
-            <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mt-8 rounded-lg">
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <i class="fas fa-exclamation-triangle text-orange-500 text-lg"></i>
+            <!-- Notification Settings -->
+            <div class="border rounded-lg p-5 shadow-sm mb-6">
+              <h2 class="text-lg font-semibold text-gray-800 mb-4">Notification Preferences</h2>
+              
+              <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="font-medium text-gray-700">Email Notifications</h3>
+                    <p class="text-sm text-gray-600">Get important updates about your account</p>
+                  </div>
+                  <label for="emailToggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                      <input type="checkbox" id="emailToggle" class="sr-only" checked>
+                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6 bg-farm-green"></div>
+                    </div>
+                  </label>
                 </div>
-                <div class="ml-3">
-                  <p class="text-sm text-orange-700">
-                    <span class="font-medium">Security Notice: </span>
-                    You have logged in from a new device. Please verify this was you.
-                  </p>
+                
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="font-medium text-gray-700">SMS Notifications</h3>
+                    <p class="text-sm text-gray-600">Receive text alerts on your phone</p>
+                  </div>
+                  <label for="smsToggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                      <input type="checkbox" id="smsToggle" class="sr-only">
+                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
+                    </div>
+                  </label>
                 </div>
+                
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="font-medium text-gray-700">Bid Activity Alerts</h3>
+                    <p class="text-sm text-gray-600">Get notified when you're outbid</p>
+                  </div>
+                  <label for="bidToggle" class="flex items-center cursor-pointer">
+                    <div class="relative">
+                      <input type="checkbox" id="bidToggle" class="sr-only" checked>
+                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
+                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6 bg-farm-green"></div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Account Actions -->
+            <div class="border rounded-lg p-5 shadow-sm">
+              <h2 class="text-lg font-semibold text-gray-800 mb-4">Account Actions</h2>
+              
+              <div class="space-y-3">
+                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
+                  <div>
+                    <h3 class="font-medium text-gray-700">Download Account Data</h3>
+                    <p class="text-sm text-gray-600">Export your personal information</p>
+                  </div>
+                  <i class="fas fa-download text-farm-green"></i>
+                </button>
+                
+                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
+                  <div>
+                    <h3 class="font-medium text-gray-700">Deactivate Account</h3>
+                    <p class="text-sm text-gray-600">Temporarily disable your account</p>
+                  </div>
+                  <i class="fas fa-ban text-yellow-500"></i>
+                </button>
+                
+                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-red-50 rounded-lg transition">
+                  <div>
+                    <h3 class="font-medium text-red-700">Delete Account</h3>
+                    <p class="text-sm text-red-600">Permanently delete your account and data</p>
+                  </div>
+                  <i class="fas fa-trash-alt text-red-500"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -446,7 +848,7 @@
             </a>
           </div>
         </div>
-                
+        
         <div>
           <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
           <ul class="space-y-2">
@@ -456,7 +858,7 @@
             <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
           </ul>
         </div>
-                
+        
         <div>
           <h3 class="text-lg font-semibold mb-4">Account</h3>
           <ul class="space-y-2">
@@ -466,7 +868,7 @@
             <li><a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a></li>
           </ul>
         </div>
-                
+        
         <div>
           <h3 class="text-lg font-semibold mb-4">Contact</h3>
           <ul class="space-y-2">
@@ -485,7 +887,7 @@
           </ul>
         </div>
       </div>
-            
+      
       <div class="border-t border-gray-700 pt-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 FarmAuction. All rights reserved.</p>
@@ -499,6 +901,31 @@
   </footer>
 
   <script>
+    // Tab Switching Functionality
+    function switchTab(tabName) {
+      // Hide all pages
+      document.querySelectorAll('.page-container').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show selected page
+      const page = document.getElementById(`${tabName}Page`);
+      if (page) {
+        page.classList.add('active');
+      }
+      
+      // Update sidebar active state
+      document.querySelectorAll('nav a').forEach(link => {
+        if (link.dataset.tab === tabName) {
+          link.classList.remove('sidebar-item');
+          link.classList.add('sidebar-item-active');
+        } else {
+          link.classList.remove('sidebar-item-active');
+          link.classList.add('sidebar-item');
+        }
+      });
+    }
+    
     // User data management
     function getUserData() {
       // Load user data from localStorage or create default if not exists
@@ -531,16 +958,16 @@
       
       return user;
     }
-    
+
     function saveUserData(userData) {
       localStorage.setItem('farmAuctionUser', JSON.stringify(userData));
     }
-    
+
     function formatJoinDate(dateString) {
       const date = new Date(dateString);
       return date.toLocaleString('default', { month: 'long', year: 'numeric' });
     }
-    
+
     function formatTimeAgo(dateString) {
       const date = new Date(dateString);
       const now = new Date();
@@ -557,7 +984,7 @@
       
       return 'today';
     }
-    
+
     function populateProfileForm() {
       const user = getUserData();
       
@@ -586,7 +1013,7 @@
       document.getElementById('memberSince').textContent = formatJoinDate(user.joinDate);
       document.getElementById('passwordLastChanged').textContent = formatTimeAgo(user.lastPasswordChange);
     }
-    
+
     // Edit Profile functionality
     function enableFormEditing() {
       const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
@@ -600,7 +1027,7 @@
       document.getElementById('saveProfileBtn').classList.remove('hidden');
       document.getElementById('editProfileBtn').classList.add('hidden');
     }
-    
+
     function disableFormEditing() {
       const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
       inputs.forEach(input => {
@@ -613,7 +1040,7 @@
       document.getElementById('saveProfileBtn').classList.add('hidden');
       document.getElementById('editProfileBtn').classList.remove('hidden');
     }
-    
+
     // Password Modal functionality
     function showPasswordModal() {
       document.getElementById('passwordModal').classList.remove('hidden');
@@ -621,11 +1048,11 @@
       document.getElementById('newPassword').value = '';
       document.getElementById('confirmPassword').value = '';
     }
-    
+
     function hidePasswordModal() {
       document.getElementById('passwordModal').classList.add('hidden');
     }
-    
+
     // Toggle password visibility
     function setupPasswordToggles() {
       document.querySelectorAll('.toggle-password').forEach(button => {
@@ -641,7 +1068,7 @@
         });
       });
     }
-    
+
     // Toast notification
     function showToast(title, message, success = true) {
       const toast = document.getElementById('notificationToast');
@@ -668,9 +1095,17 @@
         toast.classList.remove('-translate-x-0');
       }, 3000);
     }
-    
+
     // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
+      // Tab switching functionality
+      document.querySelectorAll('nav a[data-tab]').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          switchTab(this.dataset.tab);
+        });
+      });
+      
       // Populate user data
       populateProfileForm();
       setupPasswordToggles();
