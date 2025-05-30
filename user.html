@@ -6,95 +6,238 @@
   <title>My Profile | FarmAuction</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="user.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'farm-green': '#2e7d32',
+            'farm-light-green': '#4caf50',
+            'farm-dark-green': '#1b5e20',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .input-disabled {
+      @apply bg-gray-50 text-gray-700;
+    }
+    
+    .input-enabled {
+      @apply bg-white text-gray-900 shadow-sm;
+    }
+    
+    .profile-shadow {
+      box-shadow: 0 4px 20px rgba(46, 125, 50, 0.15);
+    }
+    
+    .profile-image-edit {
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-image-edit:hover {
+      transform: scale(1.1);
+    }
+    
+    @media (max-width: 767px) {
+      .mobile-padding {
+        @apply px-4;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 font-sans">
   <!-- Header -->
   <header class="bg-white shadow-sm sticky top-0 z-50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center">
         <div class="text-2xl font-bold">
-          <span class="text-green-600">Farmers</span>
+          <span class="text-farm-green">Farmers</span>
           <span class="text-gray-800">Auction</span>
         </div>
       </div>
-      
+            
       <nav class="hidden md:flex space-x-8">
-        <a href="file:///T:/Farmers%20Auction/home.html" class="text-gray-700 hover:text-green-600 font-medium transition">Home</a>
-        <a href="products.html" class="text-gray-700 hover:text-green-600 font-medium transition">Products</a>
-        <a href="auctions.html" class="text-gray-700 hover:text-green-600 font-medium transition">Auctions</a>
-        <a href="user.html" class="text-green-600 font-medium transition">My Profile</a>
+        <a href="file:///T:/Farmers%20Auction/home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
+        <a href="products.html" class="text-gray-700 hover:text-farm-green font-medium transition">Products</a>
+        <a href="auctions.html" class="text-gray-700 hover:text-farm-green font-medium transition">Auctions</a>
+        <a href="user.html" class="text-farm-green font-medium transition">My Profile</a>
       </nav>
-      
+            
       <div class="flex items-center space-x-4">
-        <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+        <button id="logoutBtn" class="px-4 py-2 bg-farm-green text-white rounded-md hover:bg-farm-dark-green transition">
           <i class="fas fa-sign-out-alt mr-2"></i>Logout
         </button>
-        <button class="md:hidden text-gray-700">
+        <button class="md:hidden text-gray-700" id="mobileMenuBtn">
           <i class="fas fa-bars text-xl"></i>
         </button>
       </div>
     </div>
+    
+    <!-- Mobile Navigation -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white py-3 px-4 border-t">
+      <div class="flex flex-col space-y-3">
+        <a href="file:///T:/Farmers%20Auction/home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
+        <a href="products.html" class="text-gray-700 hover:text-farm-green font-medium transition">Products</a>
+        <a href="auctions.html" class="text-gray-700 hover:text-farm-green font-medium transition">Auctions</a>
+        <a href="user.html" class="text-farm-green font-medium transition">My Profile</a>
+      </div>
+    </div>
   </header>
 
+  <!-- Change Password Modal -->
+  <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6 relative">
+      <button id="closePasswordModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <div class="mb-6">
+        <h3 class="text-xl font-bold text-gray-800">Change Password</h3>
+        <p class="text-gray-600 text-sm mt-1">Secure your account with a new password</p>
+      </div>
+      <form id="passwordForm">
+        <div class="mb-5">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="currentPassword">Current Password</label>
+          <div class="relative">
+            <input type="password" id="currentPassword" 
+                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="currentPassword">
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="mb-5">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="newPassword">New Password</label>
+          <div class="relative">
+            <input type="password" id="newPassword" 
+                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="newPassword">
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 mt-2">Must be at least 8 characters with letters and numbers</p>
+        </div>
+        
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="confirmPassword">Confirm New Password</label>
+          <div class="relative">
+            <input type="password" id="confirmPassword" 
+                   class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
+            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="confirmPassword">
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="flex justify-end gap-3">
+          <button type="button" id="cancelPasswordBtn" class="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
+            Cancel
+          </button>
+          <button type="submit" class="px-5 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
+            Update Password
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="notificationToast" class="fixed top-5 right-5 transform translate-x-96 z-50">
+    <div class="flex items-center bg-white border-l-4 rounded-lg shadow-lg px-5 py-4 transition-all duration-300" style="min-width: 300px;">
+      <div class="mr-4">
+        <i class="fas fa-check-circle text-green-500 text-2xl"></i>
+      </div>
+      <div class="flex-1">
+        <p class="font-medium text-gray-800" id="toastTitle">Success!</p>
+        <p class="text-sm text-gray-600" id="toastMessage">Changes saved successfully</p>
+      </div>
+      <button id="closeToast" class="ml-4 text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- User Profile Section -->
-  <main class="container mx-auto px-4 py-8">
+  <main class="container mx-auto px-4 py-8 mobile-padding">
     <div class="flex flex-col md:flex-row gap-8">
       <!-- Sidebar Navigation -->
       <aside class="w-full md:w-64 flex-shrink-0">
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow">
           <div class="p-6 text-center border-b">
             <div class="relative mx-auto w-24 h-24 mb-4">
-              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" 
-                   class="w-full h-full rounded-full object-cover border-4 border-green-100">
-              <button class="absolute bottom-0 right-0 bg-green-600 text-white p-2 rounded-full hover:bg-green-700 transition">
+              <div class="w-24 h-24 rounded-full bg-gradient-to-br from-green-100 to-farm-green mx-auto flex items-center justify-center text-4xl text-white font-bold">
+                U
+              </div>
+              <button class="absolute bottom-0 right-0 bg-farm-green text-white p-2 rounded-full hover:bg-farm-dark-green transition shadow profile-image-edit">
                 <i class="fas fa-camera text-sm"></i>
               </button>
             </div>
-            <h2 class="text-xl font-bold">John Farmer</h2>
-            <p class="text-gray-600 text-sm">Member since June 2022</p>
+            <h2 class="text-xl font-bold text-gray-800" id="userFullName">John Farmer</h2>
+            <p class="text-gray-600 text-sm"><i class="far fa-calendar mr-1"></i> Member since <span id="memberSince">June 2022</span></p>
           </div>
-          
+                    
           <nav class="p-4">
             <ul class="space-y-2">
               <li>
-                <a href="#" class="flex items-center px-4 py-2 bg-green-50 text-green-600 rounded-md font-medium">
-                  <i class="fas fa-user-circle mr-3"></i> Profile
+                <a href="#" class="flex items-center px-4 py-3 bg-green-50 text-farm-green rounded-lg font-medium">
+                  <i class="fas fa-user-circle mr-3 text-lg"></i> Profile
                 </a>
               </li>
               <li>
-                <a href="orders.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-md transition">
-                  <i class="fas fa-shopping-bag mr-3"></i> My Orders
+                <a href="orders.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                  <i class="fas fa-shopping-bag mr-3 text-lg"></i> My Orders
                 </a>
               </li>
               <li>
-                <a href="bids.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-md transition">
-                  <i class="fas fa-gavel mr-3"></i> My Bids
+                <a href="bids.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                  <i class="fas fa-gavel mr-3 text-lg"></i> My Bids
                 </a>
               </li>
               <li>
-                <a href="listings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-md transition">
-                  <i class="fas fa-list-alt mr-3"></i> My Listings
+                <a href="listings.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                  <i class="fas fa-list-alt mr-3 text-lg"></i> My Listings
                 </a>
               </li>
               <li>
-                <a href="settings.html" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-md transition">
-                  <i class="fas fa-cog mr-3"></i> Account Settings
+                <a href="settings.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg transition">
+                  <i class="fas fa-cog mr-3 text-lg"></i> Account Settings
                 </a>
               </li>
             </ul>
           </nav>
         </div>
+        
+        <!-- Membership Card -->
+        <div class="bg-gradient-to-r from-green-500 to-farm-green rounded-xl p-5 mt-6 text-white shadow-lg">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="font-medium text-green-100">FarmAuction Membership</h3>
+              <p class="text-2xl font-bold mt-1">Premium <span class="text-xs font-normal bg-green-800 py-1 px-2 rounded-lg ml-2">Active</span></p>
+            </div>
+            <div class="bg-white text-farm-green w-10 h-10 rounded-full flex items-center justify-center">
+              <i class="fas fa-crown"></i>
+            </div>
+          </div>
+          <div class="flex justify-between items-center text-sm">
+            <div>
+              <p class="text-green-100">Expires in</p>
+              <p class="font-semibold">90 days</p>
+            </div>
+            <button class="text-green-100 hover:text-white text-sm font-medium">Renew</button>
+          </div>
+        </div>
       </aside>
 
       <!-- Main Content -->
       <div class="flex-1">
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow">
           <!-- Profile Header -->
           <div class="border-b p-6">
-            <div class="flex justify-between items-center">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <h1 class="text-2xl font-bold text-gray-800">My Profile</h1>
-              <button id="editProfileBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+              <button id="editProfileBtn" class="px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
                 <i class="fas fa-edit mr-2"></i> Edit Profile
               </button>
             </div>
@@ -105,109 +248,127 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <!-- Personal Information -->
               <div class="md:col-span-2">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">Personal Information</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex items-center">
+                  <i class="fas fa-user-circle text-farm-green mr-2"></i> Personal Information
+                </h2>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="firstName">First Name</label>
-                <input type="text" id="firstName" value="John" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="firstName" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="lastName">Last Name</label>
-                <input type="text" id="lastName" value="Farmer" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="lastName" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="email">Email Address</label>
-                <input type="email" id="email" value="john.farmer@example.com" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="email" id="email" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
-                <input type="tel" id="phone" value="+267 78256364" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="tel" id="phone" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
 
               <!-- Address Information -->
               <div class="md:col-span-2 mt-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">Address Information</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex items-center">
+                  <i class="fas fa-map-marker-alt text-farm-green mr-2"></i> Address Information
+                </h2>
               </div>
-              
+                            
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="street">Street Address</label>
-                <input type="text" id="street" value="123 Farm Road" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="street" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="city">City</label>
-                <input type="text" id="city" value="Gaborone" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="city" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="region">Region</label>
-                <input type="text" id="region" value="South-East" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="region" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="postalCode">Postal Code</label>
-                <input type="text" id="postalCode" value="00267" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="postalCode" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="country">Country</label>
-                <select id="country" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
-                  <option value="Botswana" selected>Botswana</option>
+                <select id="country" 
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed" 
+                        disabled>
+                  <option value="Botswana">Botswana</option>
                   <option value="South Africa">South Africa</option>
                   <option value="Zimbabwe">Zimbabwe</option>
                   <option value="Namibia">Namibia</option>
                 </select>
               </div>
 
-              <!-- Farm Information (Conditional for farmers) -->
+              <!-- Farm Information -->
               <div class="md:col-span-2 mt-6">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b">Farm Information</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex items-center">
+                  <i class="fas fa-tractor text-farm-green mr-2"></i> Farm Information
+                </h2>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="farmName">Farm Name</label>
-                <input type="text" id="farmName" value="Green Valley Farms" 
-                       class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
+                <input type="text" id="farmName" 
+                       class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                       disabled>
               </div>
-              
+                            
               <div>
                 <label class="block text-gray-700 mb-2" for="farmType">Farm Type</label>
-                <select id="farmType" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
-                  <option value="Crop" selected>Crop Production</option>
+                <select id="farmType" 
+                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed" 
+                        disabled>
+                  <option value="Crop">Crop Production</option>
                   <option value="Livestock">Livestock</option>
                   <option value="Mixed">Mixed Farming</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
-              
+                            
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="farmDescription">Farm Description</label>
                 <textarea id="farmDescription" rows="3" 
-                          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" disabled>
-Green Valley Farms specializes in organic vegetable production with sustainable farming practices since 2015.
-                </textarea>
+                          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled" 
+                          disabled></textarea>
               </div>
 
               <!-- Form Actions -->
               <div class="md:col-span-2 flex justify-end space-x-4 pt-6 border-t">
                 <button type="button" id="cancelEditBtn" 
-                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition font-medium hidden">
+                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium hidden">
                   Cancel
                 </button>
                 <button type="submit" id="saveProfileBtn" 
-                        class="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition font-medium hidden">
+                        class="px-6 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium hidden">
                   Save Changes
                 </button>
               </div>
@@ -216,29 +377,46 @@ Green Valley Farms specializes in organic vegetable production with sustainable 
         </div>
 
         <!-- Account Security Card -->
-        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-8">
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden mt-8 profile-shadow">
           <div class="border-b p-6">
-            <h2 class="text-xl font-bold text-gray-800">Account Security</h2>
+            <h2 class="text-xl font-bold text-gray-800 flex items-center">
+              <i class="fas fa-shield-alt text-farm-green mr-3"></i> Account Security
+            </h2>
           </div>
           <div class="p-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b">
               <div>
                 <h3 class="font-semibold text-gray-800">Password</h3>
-                <p class="text-gray-600">Last changed 3 months ago</p>
+                <p class="text-gray-600 mt-1">Last changed <span id="passwordLastChanged">3 months ago</span></p>
               </div>
-              <button class="mt-3 md:mt-0 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
-                Change Password
+              <button id="changePasswordBtn" class="mt-3 md:mt-0 px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
+                <i class="fas fa-key mr-2"></i> Change Password
               </button>
             </div>
-            
+                        
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
               <div>
                 <h3 class="font-semibold text-gray-800">Two-Factor Authentication</h3>
-                <p class="text-gray-600">Add extra security to your account</p>
+                <p class="text-gray-600 mt-1">Add extra security to your account</p>
               </div>
-              <button class="mt-3 md:mt-0 px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition">
-                Enable 2FA
+              <button class="mt-3 md:mt-0 px-4 py-2 border border-farm-green text-farm-green rounded-lg hover:bg-green-50 transition font-medium flex items-center">
+                <i class="fas fa-mobile-alt mr-2"></i> Enable 2FA
               </button>
+            </div>
+            
+            <!-- Login Security Alert -->
+            <div class="bg-orange-50 border-l-4 border-orange-500 p-4 mt-8 rounded-lg">
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-exclamation-triangle text-orange-500 text-lg"></i>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm text-orange-700">
+                    <span class="font-medium">Security Notice: </span>
+                    You have logged in from a new device. Please verify this was you.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -263,9 +441,12 @@ Green Valley Farms specializes in organic vegetable production with sustainable 
             <a href="#" class="text-gray-400 hover:text-white transition">
               <i class="fab fa-instagram"></i>
             </a>
+            <a href="#" class="text-gray-400 hover:text-white transition">
+              <i class="fab fa-youtube"></i>
+            </a>
           </div>
         </div>
-        
+                
         <div>
           <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
           <ul class="space-y-2">
@@ -275,7 +456,7 @@ Green Valley Farms specializes in organic vegetable production with sustainable 
             <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
           </ul>
         </div>
-        
+                
         <div>
           <h3 class="text-lg font-semibold mb-4">Account</h3>
           <ul class="space-y-2">
@@ -285,26 +466,26 @@ Green Valley Farms specializes in organic vegetable production with sustainable 
             <li><a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a></li>
           </ul>
         </div>
-        
+                
         <div>
           <h3 class="text-lg font-semibold mb-4">Contact</h3>
           <ul class="space-y-2">
             <li class="flex items-center">
-              <i class="fas fa-envelope text-green-500 mr-3"></i>
+              <i class="fas fa-envelope text-farm-green mr-3"></i>
               <a href="mailto:support@farmauction.com" class="text-gray-400 hover:text-white transition">support@farmauction.com</a>
             </li>
             <li class="flex items-center">
-              <i class="fas fa-phone-alt text-green-500 mr-3"></i>
-              <span class="text-gray-400">+267 78256364</span>
+              <i class="fas fa-phone-alt text-farm-green mr-3"></i>
+              <span id="footerPhone" class="text-gray-400">+267 78256364</span>
             </li>
             <li class="flex items-start">
-              <i class="fas fa-map-marker-alt text-green-500 mt-1 mr-3"></i>
-              <span class="text-gray-400">123 Farm Road, Gaborone</span>
+              <i class="fas fa-map-marker-alt text-farm-green mt-1 mr-3"></i>
+              <span id="footerAddress" class="text-gray-400">123 Farm Road, Gaborone</span>
             </li>
           </ul>
         </div>
       </div>
-      
+            
       <div class="border-t border-gray-700 pt-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 FarmAuction. All rights reserved.</p>
@@ -317,6 +498,273 @@ Green Valley Farms specializes in organic vegetable production with sustainable 
     </div>
   </footer>
 
-  <script src="user.js"></script>
+  <script>
+    // User data management
+    function getUserData() {
+      // Load user data from localStorage or create default if not exists
+      let user = JSON.parse(localStorage.getItem('farmAuctionUser'));
+      
+      if (!user) {
+        const joinDate = new Date();
+        joinDate.setMonth(joinDate.getMonth() - 7); // 7 months ago
+        
+        user = {
+          id: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          street: '',
+          city: '',
+          region: '',
+          postalCode: '',
+          country: '',
+          farmName: '',
+          farmType: '',
+          farmDescription: '',
+          joinDate: joinDate.toISOString(),
+          lastPasswordChange: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days ago
+        };
+        
+        localStorage.setItem('farmAuctionUser', JSON.stringify(user));
+      }
+      
+      return user;
+    }
+    
+    function saveUserData(userData) {
+      localStorage.setItem('farmAuctionUser', JSON.stringify(userData));
+    }
+    
+    function formatJoinDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    }
+    
+    function formatTimeAgo(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
+      
+      if (diffMonths > 0) {
+        return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+      }
+      
+      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      if (diffDays > 0) {
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+      }
+      
+      return 'today';
+    }
+    
+    function populateProfileForm() {
+      const user = getUserData();
+      
+      // Personal Information
+      document.getElementById('firstName').value = user.firstName;
+      document.getElementById('lastName').value = user.lastName;
+      document.getElementById('userFullName').textContent = `${user.firstName} ${user.lastName}`;
+      document.getElementById('email').value = user.email;
+      document.getElementById('phone').value = user.phone;
+      
+      // Address Information
+      document.getElementById('street').value = user.street;
+      document.getElementById('city').value = user.city;
+      document.getElementById('region').value = user.region;
+      document.getElementById('postalCode').value = user.postalCode;
+      document.getElementById('country').value = user.country;
+      document.getElementById('footerAddress').textContent = user.street;
+      document.getElementById('footerPhone').textContent = user.phone;
+      
+      // Farm Information
+      document.getElementById('farmName').value = user.farmName;
+      document.getElementById('farmType').value = user.farmType;
+      document.getElementById('farmDescription').value = user.farmDescription;
+      
+      // Membership info
+      document.getElementById('memberSince').textContent = formatJoinDate(user.joinDate);
+      document.getElementById('passwordLastChanged').textContent = formatTimeAgo(user.lastPasswordChange);
+    }
+    
+    // Edit Profile functionality
+    function enableFormEditing() {
+      const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
+      inputs.forEach(input => {
+        input.disabled = false;
+        input.classList.remove('input-disabled');
+        input.classList.add('input-enabled');
+      });
+      
+      document.getElementById('cancelEditBtn').classList.remove('hidden');
+      document.getElementById('saveProfileBtn').classList.remove('hidden');
+      document.getElementById('editProfileBtn').classList.add('hidden');
+    }
+    
+    function disableFormEditing() {
+      const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
+      inputs.forEach(input => {
+        input.disabled = true;
+        input.classList.remove('input-enabled');
+        input.classList.add('input-disabled');
+      });
+      
+      document.getElementById('cancelEditBtn').classList.add('hidden');
+      document.getElementById('saveProfileBtn').classList.add('hidden');
+      document.getElementById('editProfileBtn').classList.remove('hidden');
+    }
+    
+    // Password Modal functionality
+    function showPasswordModal() {
+      document.getElementById('passwordModal').classList.remove('hidden');
+      document.getElementById('currentPassword').value = '';
+      document.getElementById('newPassword').value = '';
+      document.getElementById('confirmPassword').value = '';
+    }
+    
+    function hidePasswordModal() {
+      document.getElementById('passwordModal').classList.add('hidden');
+    }
+    
+    // Toggle password visibility
+    function setupPasswordToggles() {
+      document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+          const target = this.getAttribute('data-target');
+          const passwordInput = document.getElementById(target);
+          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+          passwordInput.setAttribute('type', type);
+          
+          // Toggle eye icon
+          this.querySelector('i').classList.toggle('fa-eye');
+          this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+      });
+    }
+    
+    // Toast notification
+    function showToast(title, message, success = true) {
+      const toast = document.getElementById('notificationToast');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMessage = document.getElementById('toastMessage');
+      const icon = document.querySelector('#notificationToast i');
+      
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      
+      if (success) {
+        icon.classList.remove('fa-times-circle', 'text-red-500');
+        icon.classList.add('fa-check-circle', 'text-green-500');
+      } else {
+        icon.classList.remove('fa-check-circle', 'text-green-500');
+        icon.classList.add('fa-times-circle', 'text-red-500');
+      }
+      
+      toast.classList.remove('translate-x-96');
+      toast.classList.add('-translate-x-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-x-96');
+        toast.classList.remove('-translate-x-0');
+      }, 3000);
+    }
+    
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Populate user data
+      populateProfileForm();
+      setupPasswordToggles();
+      
+      // Profile form events
+      document.getElementById('editProfileBtn').addEventListener('click', enableFormEditing);
+      
+      document.getElementById('cancelEditBtn').addEventListener('click', function() {
+        // Re-populate form to discard changes
+        populateProfileForm();
+        disableFormEditing();
+      });
+      
+      document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Update user data
+        const user = getUserData();
+        user.firstName = document.getElementById('firstName').value;
+        user.lastName = document.getElementById('lastName').value;
+        user.email = document.getElementById('email').value;
+        user.phone = document.getElementById('phone').value;
+        user.street = document.getElementById('street').value;
+        user.city = document.getElementById('city').value;
+        user.region = document.getElementById('region').value;
+        user.postalCode = document.getElementById('postalCode').value;
+        user.country = document.getElementById('country').value;
+        user.farmName = document.getElementById('farmName').value;
+        user.farmType = document.getElementById('farmType').value;
+        user.farmDescription = document.getElementById('farmDescription').value;
+        
+        saveUserData(user);
+        populateProfileForm(); // Update the displayed name
+        disableFormEditing();
+        showToast('Profile Updated', 'Your changes have been saved successfully');
+      });
+      
+      // Password modal events
+      document.getElementById('changePasswordBtn').addEventListener('click', showPasswordModal);
+      
+      document.getElementById('closePasswordModal').addEventListener('click', hidePasswordModal);
+      document.getElementById('cancelPasswordBtn').addEventListener('click', hidePasswordModal);
+      
+      document.getElementById('passwordForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const currentPassword = document.getElementById('currentPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Simple validation
+        if (newPassword.length < 8) {
+          showToast('Error', 'Password must be at least 8 characters', false);
+          return;
+        }
+        
+        if (newPassword !== confirmPassword) {
+          showToast('Error', 'New passwords do not match', false);
+          return;
+        }
+        
+        // In a real app, we would verify current password with server
+        // For demo, we'll just update locally
+        const user = getUserData();
+        user.lastPasswordChange = new Date().toISOString();
+        saveUserData(user);
+        
+        // Update UI
+        document.getElementById('passwordLastChanged').textContent = formatTimeAgo(user.lastPasswordChange);
+        hidePasswordModal();
+        showToast('Password Updated', 'Your password has been changed successfully');
+      });
+      
+      // Logout button
+      document.getElementById('logoutBtn').addEventListener('click', function() {
+        localStorage.removeItem('farmAuctionUser');
+        showToast('Logged Out', 'You have been logged out successfully');
+        setTimeout(() => {
+          // In a real app, redirect to login page
+          window.location.href = 'login.html';
+        }, 1500);
+      });
+      
+      // Mobile menu toggle
+      document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+      });
+      
+      // Close toast
+      document.getElementById('closeToast').addEventListener('click', function() {
+        document.getElementById('notificationToast').classList.add('translate-x-96');
+        document.getElementById('notificationToast').classList.remove('-translate-x-0');
+      });
+    });
+  </script>
 </body>
 </html>
