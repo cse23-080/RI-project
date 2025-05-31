@@ -4,205 +4,262 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="style.css">
     <title>Farmers Auction</title>
-    <!-- Supabase JS CDN (UMD) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
+    <style>
+        .form-section {
+            animation: fade-in 0.5s ease-in-out;
+        }
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .nav-menu.responsive {
+            max-height: 500px;
+            padding: 1rem 0;
+            opacity: 1;
+        }
+    </style>
 </head>
-<body>
- <div class="wrapper">
-    <nav class="nav">
-        <div class="nav-logo">
-            <p><span style="color: rgb(66, 201, 66);">Farmers</span> <span style="color: white;">Auction</span></p>
-        </div>
-        <div class="nav-menu" id="navMenu">
-            <ul>
-                <li><a href="home.html" class="link active">Home</a></li>
-                <li><a href="#" class="link">Reviews</a></li>
-                <li><a href="#" class="link">Services</a></li>
-                <li><a href="#" class="link">About</a></li>
-            </ul>
-        </div>
-        <div class="nav-button">
-            <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
-            <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
-        </div>
-        <div class="nav-menu-btn">
-            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
-        </div>
-    </nav>
+<body class="bg-gradient-to-br from-green-50 to-emerald-100 min-h-screen">
+    <div class="wrapper">
+        <!-- Navigation -->
+        <nav class="flex justify-between items-center px-4 sm:px-8 py-6 bg-green-800 text-white">
+            <div class="font-bold text-2xl">
+                <span class="text-emerald-300">Farmers</span> 
+                <span>Auction</span>
+            </div>
+            
+            <div class="nav-menu hidden md:flex space-x-6" id="navMenu">
+                <a href="home.html" class="link hover:text-emerald-300 transition duration-300">Home</a>
+                <a href="#" class="link hover:text-emerald-300 transition duration-300">Reviews</a>
+                <a href="#" class="link hover:text-emerald-300 transition duration-300">Services</a>
+                <a href="#" class="link hover:text-emerald-300 transition duration-300">About</a>
+            </div>
+            
+            <div class="hidden md:flex space-x-4">
+                <button class="px-4 py-2 rounded-full bg-white text-green-800 hover:bg-gray-100 transition duration-300" id="loginBtn" onclick="login()">Sign In</button>
+                <button class="px-4 py-2 rounded-full bg-emerald-500 text-white hover:bg-emerald-600 transition duration-300" id="registerBtn" onclick="register()">Sign Up</button>
+            </div>
+            
+            <div class="md:hidden text-2xl cursor-pointer">
+                <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+            </div>
+        </nav>
 
-    <div class="form-box">
-        <!-- Login form -->
-        <div class="login-container" id="login">
-            <div class="top">
-                <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
-                <header>Login</header>
-            </div>
-            <div class="input-box">
-                <input type="text" class="input-field" placeholder="Username or Email" id="login-email">
-                <i class="bx bx-user"></i>
-            </div>
-            <div class="input-box">
-                <input type="password" class="input-field" placeholder="Password" id="login-password">
-                <i class="bx bx-lock-alt"></i>
-            </div>
-            <div class="input-box">
-                <input type="submit" class="submit" value="Sign In" id="login-submit">
-            </div>
-            <div class="two-col">
-                <div class="one">
-                    <input type="checkbox" id="login-check">
-                    <label for="login-check"> Remember Me</label>
+        <!-- Hero Section -->
+        <div class="px-4 py-16 max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-6">
+                Fresh Produce, <span class="text-emerald-600">Fair Prices</span>
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
+                Connecting farmers directly with buyers through our transparent auction system
+            </p>
+            
+            <!-- Form Container -->
+            <div class="form-box max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden relative">
+                <div class="relative transition-all duration-500 ease-in-out">
+                    <!-- Login form -->
+                    <div class="login-container form-section p-8" id="login">
+                        <div class="mb-8">
+                            <div class="text-gray-500 mb-2">
+                                Don't have an account? 
+                                <a href="#" class="text-emerald-600 font-medium cursor-pointer" onclick="register()">Sign Up</a>
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-800">Login</h2>
+                        </div>
+                        
+                        <div class="mb-5 relative">
+                            <input type="text" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Username or Email" id="login-email">
+                            <i class="bx bx-user absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                        </div>
+                        
+                        <div class="mb-5 relative">
+                            <input type="password" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Password" id="login-password">
+                            <i class="bx bx-lock-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                        </div>
+                        
+                        <div class="mb-5">
+                            <button id="login-submit" class="w-full py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition duration-300">Sign In</button>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-center mt-6">
+                            <div class="flex items-center mb-3 sm:mb-0">
+                                <input type="checkbox" id="login-check" class="mr-2">
+                                <label for="login-check" class="text-gray-600">Remember Me</label>
+                            </div>
+                            <div>
+                                <a href="#" class="text-emerald-600 hover:underline">Forgot password?</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Registration form -->
+                    <div class="register-container form-section p-8 absolute top-0 left-0 w-full opacity-0 pointer-events-none" id="register">
+                        <div class="mb-8">
+                            <div class="text-gray-500 mb-2">
+                                Have an account? 
+                                <a href="#" class="text-emerald-600 font-medium cursor-pointer" onclick="login()">Login</a>
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-800">Sign Up</h2>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+                            <div class="relative">
+                                <input type="text" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Firstname" id="register-firstname">
+                                <i class="bx bx-user absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                            </div>
+                            <div class="relative">
+                                <input type="text" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Lastname" id="register-lastname">
+                                <i class="bx bx-user absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-5 relative">
+                            <input type="text" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Email" id="register-email">
+                            <i class="bx bx-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                        </div>
+                        
+                        <div class="mb-5 relative">
+                            <input type="password" class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent" placeholder="Password" id="register-password">
+                            <i class="bx bx-lock-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400"></i>
+                        </div>
+                        
+                        <div class="mb-5">
+                            <button id="register-submit" class="w-full py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition duration-300">Register</button>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-center mt-6">
+                            <div class="flex items-center mb-3 sm:mb-0">
+                                <input type="checkbox" id="register-check" class="mr-2">
+                                <label for="register-check" class="text-gray-600">Remember Me</label>
+                            </div>
+                            <div>
+                                <a href="#" class="text-emerald-600 hover:underline">Terms & conditions</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="two">
-                    <label><a href="#">Forgot password?</a></label>
+            </div>
+            
+            <!-- Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="bx bx-leaf text-2xl text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Fresh Produce</h3>
+                    <p class="text-gray-600">Direct from farms to your table with minimal transportation</p>
                 </div>
-            </div>
-        </div>
-
-        <!-- Registration form -->
-        <div class="register-container" id="register">
-            <div class="top">
-                <span>Have an account? <a href="#" onclick="login()">Login</a></span>
-                <header>Sign Up</header>
-            </div>
-            <div class="two-forms">
-                <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Firstname" id="register-firstname">
-                    <i class="bx bx-user"></i>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="bx bx-dollar-circle text-2xl text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Fair Pricing</h3>
+                    <p class="text-gray-600">Farmers get fair value while consumers get fair prices</p>
                 </div>
-                <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Lastname" id="register-lastname">
-                    <i class="bx bx-user"></i>
-                </div>
-            </div>
-            <div class="input-box">
-                <input type="text" class="input-field" placeholder="Email" id="register-email">
-                <i class="bx bx-envelope"></i>
-            </div>
-            <div class="input-box">
-                <input type="password" class="input-field" placeholder="Password" id="register-password">
-                <i class="bx bx-lock-alt"></i>
-            </div>
-            <div class="input-box">
-                <input type="submit" class="submit" value="Register" id="register-submit">
-            </div>
-            <div class="two-col">
-                <div class="one">
-                    <input type="checkbox" id="register-check">
-                    <label for="register-check"> Remember Me</label>
-                </div>
-                <div class="two">
-                    <label><a href="#">Terms & conditions</a></label>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="bx bx-shield-quarter text-2xl text-emerald-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Quality Guarantee</h3>
+                    <p class="text-gray-600">Rigorous quality checks for all auctioned products</p>
                 </div>
             </div>
         </div>
     </div>
-</div>   
 
-<script>
-   function myMenuFunction() {
-    var i = document.getElementById("navMenu");
-    if(i.className === "nav-menu") {
-        i.className += " responsive";
-    } else {
-        i.className = "nav-menu";
-    }
-   }
-</script>
-
-<script>
-    var a = document.getElementById("loginBtn");
-    var b = document.getElementById("registerBtn");
-    var x = document.getElementById("login");
-    var y = document.getElementById("register");
-
-    function login() {
-        x.style.left = "4px";
-        y.style.right = "-520px";
-        a.className += " white-btn";
-        b.className = "btn";
-        x.style.opacity = 1;
-        y.style.opacity = 0;
-    }
-
-    function register() {
-        x.style.left = "-510px";
-        y.style.right = "5px";
-        a.className = "btn";
-        b.className += " white-btn";
-        x.style.opacity = 0;
-        y.style.opacity = 1;
-    }
-</script>
-
-<script>
-  // Supabase Auth Setup (UMD)
-  const SUPABASE_URL = 'https://sumyihinshrmozoqtwan.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1bXlpaGluc2hybW96b3F0d2FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3Mjk5MTIsImV4cCI6MjA2NDMwNTkxMn0.ndtyLtLTlPydaznunDjzQyOs4S-F_mrrw4ohbv4iN_k';
-
-  // Use the UMD global
-  const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  // Registration
-  document.getElementById('register-submit').onclick = async function(e) {
-    e.preventDefault();
-
-    const firstname = document.getElementById('register-firstname').value.trim();
-    const lastname = document.getElementById('register-lastname').value.trim();
-    const email = document.getElementById('register-email').value.trim();
-    const password = document.getElementById('register-password').value;
-
-    if(!firstname || !lastname || !email || !password) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          firstname,
-          lastname
+    <script>
+        // Mobile Menu Toggle
+        function myMenuFunction() {
+            const navMenu = document.getElementById("navMenu");
+            navMenu.classList.toggle('responsive');
         }
-      }
-    });
 
-    if(error) {
-      alert('Registration failed: ' + error.message);
-    } else {
-      alert('Registration successful! Please check your email for confirmation.');
-      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#'; // or your actual homepage URL
-    }
-  };
+        // Form Toggle
+        const loginBtn = document.getElementById("loginBtn");
+        const registerBtn = document.getElementById("registerBtn");
+        const loginForm = document.getElementById("login");
+        const registerForm = document.getElementById("register");
 
-  // Login
-  document.getElementById('login-submit').onclick = async function(e) {
-    e.preventDefault();
+        function login() {
+            registerForm.classList.add('opacity-0', 'pointer-events-none');
+            loginForm.classList.remove('opacity-0', 'pointer-events-none');
+        }
 
-    const email = document.getElementById('login-email').value.trim();
-    const password = document.getElementById('login-password').value;
+        function register() {
+            loginForm.classList.add('opacity-0', 'pointer-events-none');
+            registerForm.classList.remove('opacity-0', 'pointer-events-none');
+        }
 
-    if(!email || !password) {
-      alert('Please fill in all fields.');
-      return;
-    }
+        // Supabase Auth Setup
+        const SUPABASE_URL = 'https://sumyihinshrmozoqtwan.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1bXlpaGluc2hybW96b3F0d2FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3Mjk5MTIsImV4cCI6MjA2NDMwNTkxMn0.ndtyLtLTlPydaznunDjzQyOs4S-F_mrrw4ohbv4iN_k';
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+        // Create client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    if(error) {
-      alert('Login failed: ' + error.message);
-    } else {
-      alert('Login successful!');
-      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#'; // or your actual homepage URL
-    }
-  };
-</script>
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Registration
+            document.getElementById('register-submit').addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                const firstname = document.getElementById('register-firstname').value.trim();
+                const lastname = document.getElementById('register-lastname').value.trim();
+                const email = document.getElementById('register-email').value.trim();
+                const password = document.getElementById('register-password').value;
+
+                if(!firstname || !lastname || !email || !password) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                const { error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            firstname,
+                            lastname
+                        }
+                    }
+                });
+
+                if(error) {
+                    alert('Registration failed: ' + error.message);
+                } else {
+                    alert('Registration successful! Please check your email for confirmation.');
+                }
+            });
+
+            // Login
+            document.getElementById('login-submit').addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('login-email').value.trim();
+                const password = document.getElementById('login-password').value;
+
+                if(!email || !password) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                const { error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if(error) {
+                    alert('Login failed: ' + error.message);
+                } else {
+                    alert('Login successful!');
+                    window.location.href = 'home.html';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
