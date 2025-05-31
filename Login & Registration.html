@@ -18,7 +18,7 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <ul>
-                <li><a href="#" class="link active">Home</a></li>
+                <li><a href="home.html" class="link active">Home</a></li>
                 <li><a href="#" class="link">Reviews</a></li>
                 <li><a href="#" class="link">Services</a></li>
                 <li><a href="#" class="link">About</a></li>
@@ -105,7 +105,6 @@
     </div>
 </div>   
 
-
 <script>
    function myMenuFunction() {
     var i = document.getElementById("navMenu");
@@ -145,7 +144,7 @@
 <!-- SUPABASE Registration/Login JS -->
 <script>
   // Replace with your Supabase project credentials
-  const SUPABASE_URL = 'postgresql://postgres:[theo999@TLOTLOmol]@db.pwhuoayosywbgikbigvs.supabase.co:5432/postgres'; // <-- Replace this!
+  const SUPABASE_URL = 'https://pwhuoayosywbgikbigvs.supabase.co'; // <-- Replace this!
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3aHVvYXlvc3l3Ymdpa2JpZ3ZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3MjM5MzgsImV4cCI6MjA2NDI5OTkzOH0.O_rJxQsYpP_UpUbliDlG8WUSbl5ZRrmQWcN5ZjIqCig'; // <-- Replace this!
 
   const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -179,10 +178,9 @@
     if(error) {
       alert('Registration failed: ' + error.message);
     } else {
-      // Optionally store more info in a "profiles" table
-      // await supabase.from('profiles').insert([{ id: data.user.id, firstname, lastname, email }]);
       alert('Registration successful! Please check your email for confirmation.');
-      login();
+      // Redirect to homepage after successful registration
+      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#';
     }
   };
 
@@ -207,8 +205,8 @@
       alert('Login failed: ' + error.message);
     } else {
       alert('Login successful!');
-      // Redirect, hide modal, or update UI as needed
-      // window.location.href = '/dashboard.html';
+      // Redirect to homepage after successful login
+      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#';
     }
   };
 </script>
