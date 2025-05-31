@@ -7,6 +7,8 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Farmers Auction</title>
+    <!-- Supabase JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/+esm"></script>
 </head>
 <body>
  <div class="wrapper">
@@ -42,15 +44,15 @@
                 <header>Login</header>
             </div>
             <div class="input-box">
-                <input type="text" class="input-field" placeholder="Username or Email">
+                <input type="text" class="input-field" placeholder="Username or Email" id="login-email">
                 <i class="bx bx-user"></i>
             </div>
             <div class="input-box">
-                <input type="password" class="input-field" placeholder="Password">
+                <input type="password" class="input-field" placeholder="Password" id="login-password">
                 <i class="bx bx-lock-alt"></i>
             </div>
             <div class="input-box">
-                <input type="submit" class="submit" value="Sign In">
+                <input type="submit" class="submit" value="Sign In" id="login-submit">
             </div>
             <div class="two-col">
                 <div class="one">
@@ -71,24 +73,24 @@
             </div>
             <div class="two-forms">
                 <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Firstname">
+                    <input type="text" class="input-field" placeholder="Firstname" id="register-firstname">
                     <i class="bx bx-user"></i>
                 </div>
                 <div class="input-box">
-                    <input type="text" class="input-field" placeholder="Lastname">
+                    <input type="text" class="input-field" placeholder="Lastname" id="register-lastname">
                     <i class="bx bx-user"></i>
                 </div>
             </div>
             <div class="input-box">
-                <input type="text" class="input-field" placeholder="Email">
+                <input type="text" class="input-field" placeholder="Email" id="register-email">
                 <i class="bx bx-envelope"></i>
             </div>
             <div class="input-box">
-                <input type="password" class="input-field" placeholder="Password">
+                <input type="password" class="input-field" placeholder="Password" id="register-password">
                 <i class="bx bx-lock-alt"></i>
             </div>
             <div class="input-box">
-                <input type="submit" class="submit" value="Register">
+                <input type="submit" class="submit" value="Register" id="register-submit">
             </div>
             <div class="two-col">
                 <div class="one">
@@ -105,21 +107,17 @@
 
 
 <script>
-   
    function myMenuFunction() {
     var i = document.getElementById("navMenu");
-
     if(i.className === "nav-menu") {
         i.className += " responsive";
     } else {
         i.className = "nav-menu";
     }
    }
- 
 </script>
 
 <script>
-
     var a = document.getElementById("loginBtn");
     var b = document.getElementById("registerBtn");
     var x = document.getElementById("login");
@@ -142,8 +140,77 @@
         x.style.opacity = 0;
         y.style.opacity = 1;
     }
-
 </script>
 
+<!-- SUPABASE Registration/Login JS -->
+<script>
+  // Replace with your Supabase project credentials
+  const SUPABASE_URL = 'postgresql://postgres:[theo999@TLOTLOmol]@db.pwhuoayosywbgikbigvs.supabase.co:5432/postgres'; // <-- Replace this!
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3aHVvYXlvc3l3Ymdpa2JpZ3ZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3MjM5MzgsImV4cCI6MjA2NDI5OTkzOH0.O_rJxQsYpP_UpUbliDlG8WUSbl5ZRrmQWcN5ZjIqCig'; // <-- Replace this!
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Register user
+  document.getElementById('register-submit').onclick = async function(e) {
+    e.preventDefault();
+
+    const firstname = document.getElementById('register-firstname').value.trim();
+    const lastname = document.getElementById('register-lastname').value.trim();
+    const email = document.getElementById('register-email').value.trim();
+    const password = document.getElementById('register-password').value;
+
+    if(!firstname || !lastname || !email || !password) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    // Sign up with Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          firstname,
+          lastname
+        }
+      }
+    });
+
+    if(error) {
+      alert('Registration failed: ' + error.message);
+    } else {
+      // Optionally store more info in a "profiles" table
+      // await supabase.from('profiles').insert([{ id: data.user.id, firstname, lastname, email }]);
+      alert('Registration successful! Please check your email for confirmation.');
+      login();
+    }
+  };
+
+  // Login user
+  document.getElementById('login-submit').onclick = async function(e) {
+    e.preventDefault();
+
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+
+    if(!email || !password) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if(error) {
+      alert('Login failed: ' + error.message);
+    } else {
+      alert('Login successful!');
+      // Redirect, hide modal, or update UI as needed
+      // window.location.href = '/dashboard.html';
+    }
+  };
+</script>
 </body>
 </html>
