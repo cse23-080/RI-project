@@ -7,9 +7,8 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <title>Farmers Auction</title>
-    <!-- Supabase JS CDN -->
+    <!-- Supabase JS CDN (UMD) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
-
 </head>
 <body>
  <div class="wrapper">
@@ -34,11 +33,8 @@
         </div>
     </nav>
 
-<!----------------------------- Form box ----------------------------------->    
     <div class="form-box">
-        
-        <!------------------- login form -------------------------->
-
+        <!-- Login form -->
         <div class="login-container" id="login">
             <div class="top">
                 <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
@@ -66,7 +62,7 @@
             </div>
         </div>
 
-        <!------------------- registration form -------------------------->
+        <!-- Registration form -->
         <div class="register-container" id="register">
             <div class="top">
                 <span>Have an account? <a href="#" onclick="login()">Login</a></span>
@@ -142,15 +138,15 @@
     }
 </script>
 
-<!-- SUPABASE Registration/Login JS -->
 <script>
-  // Replace with your Supabase project credentials
-  const SUPABASE_URL = 'https://pwhuoayosywbgikbigvs.supabase.co'; // <-- Replace this!
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3aHVvYXlvc3l3Ymdpa2JpZ3ZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3MjM5MzgsImV4cCI6MjA2NDI5OTkzOH0.O_rJxQsYpP_UpUbliDlG8WUSbl5ZRrmQWcN5ZjIqCig'; // <-- Replace this!
+  // Supabase Auth Setup (UMD)
+  const SUPABASE_URL = 'https://pwhuoayosywbgikbigvs.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3aHVvYXlvc3l3Ymdpa2JpZ3ZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3MjM5MzgsImV4cCI6MjA2NDI5OTkzOH0.O_rJxQsYpP_UpUbliDlG8WUSbl5ZRrmQWcN5ZjIqCig';
 
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // Use the UMD global
+  const supabase = window.Supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // Register user
+  // Registration
   document.getElementById('register-submit').onclick = async function(e) {
     e.preventDefault();
 
@@ -164,8 +160,7 @@
       return;
     }
 
-    // Sign up with Supabase Auth
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -180,12 +175,11 @@
       alert('Registration failed: ' + error.message);
     } else {
       alert('Registration successful! Please check your email for confirmation.');
-      // Redirect to homepage after successful registration
-      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#';
+      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#'; // or your actual homepage URL
     }
   };
 
-  // Login user
+  // Login
   document.getElementById('login-submit').onclick = async function(e) {
     e.preventDefault();
 
@@ -197,7 +191,7 @@
       return;
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
@@ -206,8 +200,7 @@
       alert('Login failed: ' + error.message);
     } else {
       alert('Login successful!');
-      // Redirect to homepage after successful login
-      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#';
+      window.location.href = 'https://cse23-080.github.io/RI-project/home.html#'; // or your actual homepage URL
     }
   };
 </script>
