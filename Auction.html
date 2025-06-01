@@ -1,403 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auction Products | FarmAuction</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .auction-timer {
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-    .tab-active {
-      border-bottom: 3px solid #10b981;
-      color: #10b981;
-      font-weight: 600;
-    }
-    .bid-input:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px #10b981;
-    }
-    .progress-bar {
-      height: 6px;
-      background-color: #e5e7eb;
-    }
-    .progress-fill {
-      height: 100%;
-      background-color: #10b981;
-      transition: width 0.3s ease;
-    }
-    .livestock-badge {
-      background-color: #fef3c7;
-      color: #92400e;
-    }
-    .equipment-badge {
-      background-color: #e0e7ff;
-      color: #3730a3;
-    }
-  </style>
-</head>
-<body class="bg-gray-50">
-  <!-- Header with Navigation -->
-  <header class="bg-white shadow-sm">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-      <div class="flex items-center">
-        <h1 class="text-2xl font-bold">
-          <span class="text-green-600">Farmers</span>
-          <span class="text-black">Auction</span>
-        </h1>
-      </div>
-      <nav class="hidden md:flex space-x-8">
-        <a href="https://cse23-080.github.io/RI-project/home.html#" class="text-gray-600 hover:text-green-600">Home</a>
-        <a href="https://cse23-080.github.io/RI-project/Products.html#" class="text-green-600 font-medium">Products</a>
-        <a href="https://cse23-080.github.io/RI-project/Auction.html#" class="text-gray-600 hover:text-green-600">Auctions</a>
-        <a href="#" class="text-gray-600 hover:text-green-600">Cart</a>
-        <a href="#" class="text-gray-600 hover:text-green-600">About</a>
-      </nav>
-      <div class="flex items-center space-x-4">
-        <button onclick="window.location.href='https://cse23-080.github.io/RI-project/user.html#'" class="px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition">
-          <i class="fas fa-user mr-2"></i>User
-        </button>
-        <button class="md:hidden text-gray-600">
-          <i class="fas fa-bars text-xl"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-8">
-    <!-- Page Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-      <div>
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Active Auctions</h1>
-        <p class="text-gray-600">Browse and bid on fresh farm products, livestock, and equipment</p>
-      </div>
-      <button id="addProductBtn" 
-        class="mt-4 md:mt-0 px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center"
-        onclick="window.location.href='create-auction.html'">
-        <i class="fas fa-plus mr-2"></i> Add Product to Auction
-      </button>
-    </div>
-    <!-- Filter and Search -->
-    <div class="bg-white rounded-lg shadow-sm p-4 mb-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div class="flex space-x-2 mb-4 md:mb-0 overflow-x-auto pb-2">
-          <button class="px-4 py-2 bg-green-600 text-white rounded-md whitespace-nowrap">All</button>
-          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Produce</button>
-          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Livestock</button>
-          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Equipment</button>
-          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Dairy</button>
-          <button class="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 whitespace-nowrap">Poultry</button>
-        </div>
-        <div class="relative w-full md:w-64">
-          <input id="searchInput" type="text" placeholder="Search auctions..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-        </div>
-      </div>
-    </div>
-    <!-- Tabs -->
-    <div class="border-b border-gray-200 mb-8">
-      <div class="flex space-x-8 overflow-x-auto">
-        <button class="tab-active pb-3 px-1 whitespace-nowrap">Active Auctions</button>
-        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">Completed</button>
-        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">My Bids</button>
-        <button class="text-gray-600 hover:text-green-600 pb-3 px-1 whitespace-nowrap">My Listings</button>
-      </div>
-    </div>
-    <!-- Products Grid -->
-    <div id="auction-products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"></div>
-    <!-- Pagination -->
-    <div class="flex justify-center">
-      <nav class="inline-flex rounded-md shadow-sm">
-        <button class="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-          Previous
-        </button>
-        <button class="px-3 py-1 border-t border-b border-gray-300 bg-white text-green-600 font-medium">
-          1
-        </button>
-        <button class="px-3 py-1 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-          2
-        </button>
-        <button class="px-3 py-1 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-          3
-        </button>
-        <button class="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-          Next
-        </button>
-      </nav>
-    </div>
-  </main>
-  <!-- Footer (same as before, omitted for brevity) -->
-  <!-- ...footer code here... -->
-  <script>
-    // --- Auction Data ---
-    const defaultAuctions = [
-      {
-        id: 1,
-        name: "Organic Tomatoes",
-        img: "tomatos.jpg",
-        badge: "Organic",
-        badgeClass: "bg-green-100 text-green-800",
-        timer: 12 * 3600 + 34 * 60 + 56,
-        price: 70,
-        description: "Freshly harvested vine-ripened tomatoes from Green Valley Farms",
-        currentBid: 100.00,
-        numBids: 12,
-        progress: 75,
-        minBid: 100.5,
-        step: 0.5,
-        condition: "New",
-        location: "Green Valley",
-        category: "Produce",
-        history: [
-          { amount: 100, time: Date.now() - 60000 }
-        ]
-      },
-      {
-        id: 2,
-        name: "Angus Cattle (5 Head)",
-        img: "agus.jpg",
-        badge: "Livestock",
-        badgeClass: "livestock-badge",
-        timer: 1 * 86400 + 4 * 3600 + 12 * 60,
-        price: 100000,
-        description: "Premium quality Black Angus cattle, 18-24 months old",
-        currentBid: 110000.00,
-        numBids: 8,
-        progress: 60,
-        minBid: 110100,
-        step: 100,
-        condition: "Used - Good",
-        location: "Ranch 23",
-        category: "Livestock",
-        history: [
-          { amount: 110000, time: Date.now() - 120000 }
-        ]
-      },
-      {
-        id: 3,
-        name: "John Deere Tractor",
-        img: "track.jpg",
-        badge: "Equipment",
-        badgeClass: "equipment-badge",
-        timer: 3 * 86400 + 2 * 3600 + 45 * 60,
-        price: 70000,
-        description: "2018 model, low hours, excellent condition",
-        currentBid: 90000.00,
-        numBids: 5,
-        progress: 40,
-        minBid: 90050,
-        step: 50,
-        condition: "Used - Like New",
-        location: "Smith's Farm",
-        category: "Equipment",
-        history: [
-          { amount: 90000, time: Date.now() - 600000 }
-        ]
-      }
-    ];
+<!-- ... [keep all your code above, including the form and modals, unchanged] ... -->
 
-    // Merge localStorage auctions with the default ones
-    function getAllAuctions() {
-      const userAuctions = JSON.parse(localStorage.getItem('auctions')) || [];
-      // Map user auctions to card format (use first image if present)
-      const mapped = userAuctions.map(a => ({
-        id: a.id,
-        name: a.name,
-        img: a.images && a.images[0] ? a.images[0] : "https://via.placeholder.com/400x320?text=No+Image",
-        badge: a.category,
-        badgeClass: a.category === "Livestock" ? "livestock-badge" : a.category === "Equipment" ? "equipment-badge" : "bg-green-100 text-green-800",
-        timer: Math.floor((new Date(a.endTime).getTime() - Date.now())/1000),
-        price: a.startingBid,
-        description: a.description,
-        currentBid: a.currentBid,
-        numBids: a.bids ? a.bids.length : 0,
-        progress: 20 + ((a.bids ? a.bids.length : 0) * 10),
-        minBid: a.currentBid + 1,
-        step: 1,
-        condition: a.condition,
-        location: a.location,
-        category: a.category,
-        history: a.bids || []
-      }));
-      return [...mapped, ...defaultAuctions];
+<script>
+  // Image upload and preview
+  document.getElementById('imageUpload').addEventListener('change', function(e) {
+    const previewContainer = document.getElementById('imagePreview');
+    previewContainer.innerHTML = '';
+    const files = e.target.files;
+    if (files.length > 6) {
+      alert('You can upload a maximum of 6 images');
+      return;
     }
-
-    let auctionProducts = getAllAuctions();
-
-    // Render products grid
-    function renderProducts(filter = '') {
-      const grid = document.getElementById('auction-products-grid');
-      grid.innerHTML = '';
-      let filtered = auctionProducts;
-      if (filter && filter !== 'All') {
-        filtered = auctionProducts.filter(p => p.category === filter || p.badge === filter);
+    for (let i = 0; i < Math.min(files.length, 6); i++) {
+      const file = files[i];
+      if (!file.type.match('image.*')) continue;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.className = 'w-full h-32 object-cover rounded-lg preview-card';
+        previewContainer.appendChild(img);
       }
-      // Search filter
-      const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (searchVal) {
-        filtered = filtered.filter(prod => prod.name.toLowerCase().includes(searchVal) || prod.description.toLowerCase().includes(searchVal));
-      }
-      filtered.forEach((prod, idx) => {
-        grid.innerHTML += `
-        <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden transition duration-300" data-idx="${idx}">
-          <div class="relative">
-            <img src="${prod.img}" class="w-full h-48 object-cover" alt="${prod.name}">
-            <div class="absolute top-2 left-2 ${prod.badgeClass} text-xs font-medium px-2 py-1 rounded">
-              ${prod.badge}
-            </div>
-            <div class="auction-timer absolute bottom-2 left-2 right-2 bg-opacity-90 text-white text-sm font-medium px-2 py-1 rounded flex justify-between items-center">
-              <span>Ends in:</span>
-              <span class="font-mono" id="timer-${prod.id}">${formatTimeLeft(prod.timer)}</span>
-            </div>
-          </div>
-          <div class="p-4">
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-lg font-semibold text-gray-800">${prod.name}</h3>
-              <span class="text-green-600 font-medium">P${prod.price.toLocaleString()}</span>
-            </div>
-            <p class="text-gray-600 text-sm mb-3">${prod.description}</p>
-            <div class="mb-4">
-              <div class="flex justify-between text-xs text-gray-500 mb-1">
-                <span id="current-bid-${prod.id}">Current Bid: P${prod.currentBid.toLocaleString(undefined, {minimumFractionDigits:2})}</span>
-                <span id="bid-num-${prod.id}">${prod.numBids} bids</span>
-              </div>
-              <div class="progress-bar rounded-full">
-                <div class="progress-fill rounded-full" id="progress-${prod.id}" style="width: ${prod.progress || 30}%"></div>
-              </div>
-            </div>
-            <div class="flex space-x-2">
-              <input type="number" min="${prod.currentBid + prod.step}" step="${prod.step}" placeholder="P${(prod.currentBid + prod.step).toLocaleString(undefined,{minimumFractionDigits:2})}" class="bid-input flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm" id="bid-input-${prod.id}">
-              <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700" id="bid-btn-${prod.id}">
-                Bid
-              </button>
-            </div>
-            <div class="text-xs text-gray-400 mt-2" id="last-bid-time-${prod.id}"></div>
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // For preview modal
+  document.getElementById('previewBtn').addEventListener('click', function() {
+    const form = document.getElementById('auctionForm');
+    const isValid = form.checkValidity();
+    if (!isValid) {
+      form.reportValidity();
+      return;
+    }
+    const previewContent = document.getElementById('previewContent');
+    previewContent.innerHTML = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <div class="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
+            <img id="previewMainImage" src="" class="max-h-full max-w-full" style="display: none;">
+            <p class="text-gray-500">Main image preview</p>
           </div>
         </div>
-        `;
-      });
-      addBidListeners(filtered);
-      updateAuctionsUI(filtered);
+        <div>
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">${document.getElementById('itemName').value}</h2>
+          <div class="flex items-center mb-4">
+            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">${document.querySelector('input[name="category"]:checked').value}</span>
+            <span class="ml-2 text-gray-600">${document.getElementById('itemCondition').value}</span>
+          </div>
+          <div class="mb-6">
+            <p class="text-3xl font-bold text-green-600 mb-1">Starting at P${parseFloat(document.getElementById('startingBid').value).toFixed(2)}</p>
+            <p class="text-sm text-gray-500">${document.getElementById('reservePrice').value ? "Reserve price: P" + parseFloat(document.getElementById('reservePrice').value).toFixed(2) : 'No reserve price'}</p>
+          </div>
+          <div class="mb-6">
+            <div class="flex items-center text-gray-700 mb-2">
+              <i class="fas fa-map-marker-alt text-green-600 mr-3"></i>
+              <span>${document.getElementById('itemLocation').value}</span>
+            </div>
+            <div class="flex items-center text-gray-700">
+              <i class="fas fa-clock text-green-600 mr-3"></i>
+              <span>Auction ends in ${document.getElementById('auctionDuration').value} days</span>
+            </div>
+          </div>
+          <div class="border-t border-b border-gray-200 py-4 mb-6">
+            <h4 class="font-medium text-gray-800 mb-2">Description</h4>
+            <p class="text-gray-600">${document.getElementById('itemDescription').value}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    // Preview image
+    const images = document.getElementById('imagePreview').querySelectorAll('img');
+    if (images.length > 0) {
+      document.getElementById('previewMainImage').src = images[0].src;
+      document.getElementById('previewMainImage').style.display = 'block';
+      previewContent.querySelector('.bg-gray-100 p').style.display = 'none';
     }
+    document.getElementById('previewModal').classList.remove('hidden');
+  });
 
-    function formatTimeLeft(sec) {
-      if (sec <= 0) return "Auction ended";
-      let s = Math.floor(sec % 60);
-      let m = Math.floor((sec / 60) % 60);
-      let h = Math.floor((sec / 3600) % 24);
-      let d = Math.floor(sec / 86400);
-      return (d > 0 ? `${d}d ` : '') + `${h}h ${m}m ${s}s`;
-    }
+  function closePreview() {
+    document.getElementById('previewModal').classList.add('hidden');
+  }
 
-    // Real-time update for timers and bid stats
-    function updateAuctionsUI(filtered = auctionProducts) {
-      filtered.forEach((prod, i) => {
-        if (prod.timer > 0) prod.timer--;
-        if (prod.timer < 0) prod.timer = 0;
-        const timerSpan = document.getElementById(`timer-${prod.id}`);
-        if (timerSpan) timerSpan.textContent = formatTimeLeft(prod.timer);
+  function showSuccessModal() {
+    document.getElementById('successModal').classList.remove('hidden');
+  }
 
-        // UI: current bid, number of bids
-        const bidStat = document.getElementById(`current-bid-${prod.id}`);
-        if (bidStat) bidStat.textContent = `Current Bid: P${prod.currentBid.toLocaleString(undefined, {minimumFractionDigits:2})}`;
-        const numBidsStat = document.getElementById(`bid-num-${prod.id}`);
-        if (numBidsStat) numBidsStat.textContent = `${prod.numBids} bids`;
-        const progress = document.getElementById(`progress-${prod.id}`);
-        if (progress) {
-          let perc = Math.min(100, (prod.numBids || 1) * 10 + 10);
-          progress.style.width = perc + "%";
-        }
-        // Last bid time
-        const lastBid = prod.history && prod.history.length > 0 ? prod.history[prod.history.length - 1] : null;
-        const lastBidTimeDiv = document.getElementById(`last-bid-time-${prod.id}`);
-        if (lastBidTimeDiv && lastBid) {
-          lastBidTimeDiv.textContent = 'Last bid: ' + timeAgo(lastBid.time);
-        }
-      });
-    }
+  function closeSuccessModal() {
+    document.getElementById('successModal').classList.add('hidden');
+    // Redirect to product page (auction page) to see all auctions including the new one
+    window.location.href = 'Auction.html';
+  }
 
-    function timeAgo(timestamp) {
-      const now = Date.now();
-      const diff = Math.floor((now - timestamp) / 1000);
-      if (diff < 60) return `${diff}s ago`;
-      if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-      if (diff < 86400) return `${Math.floor(diff/3600)}h ago`;
-      return `${Math.floor(diff/86400)}d ago`;
-    }
-
-    // Bid Button Logic
-    function addBidListeners(filtered) {
-      filtered.forEach((prod, i) => {
-        const btn = document.getElementById(`bid-btn-${prod.id}`);
-        const input = document.getElementById(`bid-input-${prod.id}`);
-        if (btn && input) {
-          btn.onclick = () => {
-            if (prod.timer <= 0) {
-              input.value = '';
-              input.placeholder = "Auction ended";
-              input.classList.add('border-red-500');
-              setTimeout(() => input.classList.remove('border-red-500'), 1000);
-              return;
-            }
-            const val = parseFloat(input.value);
-            if (isNaN(val) || val <= prod.currentBid) {
-              input.classList.add('border-red-500');
-              setTimeout(() => input.classList.remove('border-red-500'), 800);
-              input.value = '';
-              input.placeholder = `Bid must be > P${prod.currentBid.toFixed(2)}`;
-              return;
-            }
-            prod.currentBid = val;
-            prod.numBids = (prod.numBids || 0) + 1;
-            prod.history = prod.history || [];
-            prod.history.push({ amount: val, time: Date.now() });
-            input.value = '';
-            input.placeholder = `P${(prod.currentBid + prod.step).toLocaleString(undefined,{minimumFractionDigits:2})}`;
-            input.classList.remove('border-red-500');
-            input.classList.add('border-green-500');
-            setTimeout(() => input.classList.remove('border-green-500'), 600);
-            // If this is a user auction, update localStorage
-            let userAuctions = JSON.parse(localStorage.getItem('auctions')) || [];
-            let idxInUser = userAuctions.findIndex(a => a.id === prod.id);
-            if (idxInUser !== -1) {
-              userAuctions[idxInUser].currentBid = prod.currentBid;
-              userAuctions[idxInUser].bids = prod.history;
-              localStorage.setItem('auctions', JSON.stringify(userAuctions));
-            }
-            updateAuctionsUI(filtered);
-          };
-        }
-      });
-    }
-
-    // Category filter
-    document.querySelectorAll('.flex.space-x-2 button').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.flex.space-x-2 button').forEach(b => b.classList.remove('bg-green-600','text-white'));
-        this.classList.add('bg-green-600','text-white');
-        renderProducts(this.textContent.trim());
-      });
+  // Store auction data in localStorage
+  function submitAuction() {
+    const images = [];
+    document.getElementById('imagePreview').querySelectorAll('img').forEach(img => {
+      images.push(img.src);
     });
 
-    // Search filter
-    document.getElementById('searchInput').addEventListener('input', function() {
-      renderProducts(document.querySelector('.flex.space-x-2 .bg-green-600')?.textContent.trim() || '');
-    });
+    const auction = {
+      id: Date.now(),
+      name: document.getElementById('itemName').value,
+      description: document.getElementById('itemDescription').value,
+      category: document.querySelector('input[name="category"]:checked').value,
+      startingBid: parseFloat(document.getElementById('startingBid').value),
+      reservePrice: document.getElementById('reservePrice').value ? parseFloat(document.getElementById('reservePrice').value) : null,
+      duration: parseInt(document.getElementById('auctionDuration').value),
+      condition: document.getElementById('itemCondition').value,
+      location: document.getElementById('itemLocation').value,
+      createdAt: new Date().toISOString(),
+      endTime: new Date(Date.now() + parseInt(document.getElementById('auctionDuration').value) * 24 * 60 * 60 * 1000).toISOString(),
+      status: 'active',
+      bids: [],
+      currentBid: parseFloat(document.getElementById('startingBid').value),
+      watchers: 0,
+      images: images
+    };
 
-    // Initial render & listeners
-    document.addEventListener('DOMContentLoaded', function() {
-      renderProducts();
-      setInterval(() => {
-        auctionProducts = getAllAuctions();
-        renderProducts(document.querySelector('.flex.space-x-2 .bg-green-600')?.textContent.trim() || '');
-      }, 1000);
-    });
-  </script>
-</body>
-</html>
+    const auctions = JSON.parse(localStorage.getItem('auctions')) || [];
+    auctions.push(auction);
+    localStorage.setItem('auctions', JSON.stringify(auctions));
+    closePreview();
+    showSuccessModal();
+  }
+
+  // Use the modal Confirm & Start Auction button
+  window.submitAuction = submitAuction;
+
+  // Form submission
+  document.getElementById('auctionForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitAuction();
+  });
+</script>
+<!-- ... [keep all your code below, including the footer, unchanged] ... -->
