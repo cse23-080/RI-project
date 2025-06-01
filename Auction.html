@@ -1,137 +1,213 @@
-<!-- ... [keep all your code above, including the form and modals, unchanged] ... -->
-
-<script>
-  // Image upload and preview
-  document.getElementById('imageUpload').addEventListener('change', function(e) {
-    const previewContainer = document.getElementById('imagePreview');
-    previewContainer.innerHTML = '';
-    const files = e.target.files;
-    if (files.length > 6) {
-      alert('You can upload a maximum of 6 images');
-      return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Auction | FarmAuction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .category-selector input:checked + label {
+      border-color: #10B981;
+      background-color: #ECFDF5;
     }
-    for (let i = 0; i < Math.min(files.length, 6); i++) {
-      const file = files[i];
-      if (!file.type.match('image.*')) continue;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = document.createElement('img');
-        img.src = e.target.result;
-        img.className = 'w-full h-32 object-cover rounded-lg preview-card';
-        previewContainer.appendChild(img);
-      }
-      reader.readAsDataURL(file);
+    .preview-card {
+      transition: all 0.3s ease;
     }
-  });
-
-  // For preview modal
-  document.getElementById('previewBtn').addEventListener('click', function() {
-    const form = document.getElementById('auctionForm');
-    const isValid = form.checkValidity();
-    if (!isValid) {
-      form.reportValidity();
-      return;
+    .preview-card:hover {
+      transform: translateY(-5px);
     }
-    const previewContent = document.getElementById('previewContent');
-    previewContent.innerHTML = `
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <div class="bg-gray-100 rounded-lg h-64 flex items-center justify-center">
-            <img id="previewMainImage" src="" class="max-h-full max-w-full" style="display: none;">
-            <p class="text-gray-500">Main image preview</p>
-          </div>
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <div class="text-2xl font-bold">
+          <span class="text-green-600">Farmers</span>
+          <span class="text-gray-800">Auction</span>
         </div>
+      </div>
+      <nav class="hidden md:flex space-x-8">
+        <a href="home.html" class="text-gray-700 hover:text-green-600 font-medium transition">Home</a>
+        <a href="Products.html" class="text-gray-700 hover:text-green-600 font-medium transition">Products</a>
+        <a href="Auction.html" class="text-green-600 font-medium transition">Auctions</a>
+        <a href="#" class="text-gray-700 hover:text-green-600 font-medium transition">Cart</a>
+        <a href="About.html" class="text-gray-700 hover:text-green-600 font-medium transition">About</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button onclick="window.location.href='user.html'" class="px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-50 transition">
+          <i class="fas fa-user mr-2"></i>User
+        </button>
+        <button class="md:hidden text-gray-700">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Title -->
+  <section class="py-12 bg-green-50 mb-10">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-4xl font-bold mb-2 text-gray-800">Create an Auction</h1>
+      <p class="text-lg text-gray-600">Auction your farm products, livestock, or equipment to the highest bidder!</p>
+    </div>
+  </section>
+
+  <!-- Auction Form -->
+  <main class="container mx-auto px-4">
+    <form id="auctionForm" class="max-w-3xl mx-auto bg-white rounded-xl border shadow-md p-8 mb-16">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Left Column -->
         <div>
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">${document.getElementById('itemName').value}</h2>
-          <div class="flex items-center mb-4">
-            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">${document.querySelector('input[name="category"]:checked').value}</span>
-            <span class="ml-2 text-gray-600">${document.getElementById('itemCondition').value}</span>
-          </div>
-          <div class="mb-6">
-            <p class="text-3xl font-bold text-green-600 mb-1">Starting at P${parseFloat(document.getElementById('startingBid').value).toFixed(2)}</p>
-            <p class="text-sm text-gray-500">${document.getElementById('reservePrice').value ? "Reserve price: P" + parseFloat(document.getElementById('reservePrice').value).toFixed(2) : 'No reserve price'}</p>
-          </div>
-          <div class="mb-6">
-            <div class="flex items-center text-gray-700 mb-2">
-              <i class="fas fa-map-marker-alt text-green-600 mr-3"></i>
-              <span>${document.getElementById('itemLocation').value}</span>
+          <label class="block mb-2 text-gray-700 font-medium" for="itemName">Product Name*</label>
+          <input id="itemName" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+
+          <label class="block mb-2 text-gray-700 font-medium" for="itemDescription">Description*</label>
+          <textarea id="itemDescription" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500"></textarea>
+
+          <label class="block mb-2 text-gray-700 font-medium" for="itemLocation">Location*</label>
+          <input id="itemLocation" type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+
+          <label class="block mb-2 text-gray-700 font-medium" for="startingBid">Starting Bid (Pula)*</label>
+          <input id="startingBid" type="number" min="0" step="0.01" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+
+          <label class="block mb-2 text-gray-700 font-medium" for="reservePrice">Reserve Price (Pula, optional)</label>
+          <input id="reservePrice" type="number" min="0" step="0.01" class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+        </div>
+
+        <!-- Right Column -->
+        <div>
+          <label class="block mb-2 text-gray-700 font-medium">Category*</label>
+          <div class="category-selector grid grid-cols-2 gap-3 mb-6">
+            <div>
+              <input type="radio" name="category" id="produce" value="Produce" class="hidden" checked>
+              <label for="produce" class="flex items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer">
+                <i class="fas fa-carrot text-green-600 text-2xl mr-2"></i>Produce
+              </label>
             </div>
-            <div class="flex items-center text-gray-700">
-              <i class="fas fa-clock text-green-600 mr-3"></i>
-              <span>Auction ends in ${document.getElementById('auctionDuration').value} days</span>
+            <div>
+              <input type="radio" name="category" id="livestock" value="Livestock" class="hidden">
+              <label for="livestock" class="flex items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer">
+                <i class="fas fa-cow text-green-600 text-2xl mr-2"></i>Livestock
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="category" id="equipment" value="Equipment" class="hidden">
+              <label for="equipment" class="flex items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer">
+                <i class="fas fa-tractor text-green-600 text-2xl mr-2"></i>Equipment
+              </label>
+            </div>
+            <div>
+              <input type="radio" name="category" id="other" value="Other" class="hidden">
+              <label for="other" class="flex items-center justify-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer">
+                <i class="fas fa-ellipsis-h text-green-600 text-2xl mr-2"></i>Other
+              </label>
             </div>
           </div>
-          <div class="border-t border-b border-gray-200 py-4 mb-6">
-            <h4 class="font-medium text-gray-800 mb-2">Description</h4>
-            <p class="text-gray-600">${document.getElementById('itemDescription').value}</p>
+
+          <label class="block mb-2 text-gray-700 font-medium" for="auctionDuration">Auction Duration*</label>
+          <select id="auctionDuration" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+            <option value="1">1 day</option>
+            <option value="3" selected>3 days</option>
+            <option value="5">5 days</option>
+            <option value="7">7 days</option>
+          </select>
+
+          <label class="block mb-2 text-gray-700 font-medium" for="itemCondition">Condition*</label>
+          <select id="itemCondition" required class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-6 focus:ring-2 focus:ring-green-500">
+            <option value="New" selected>New</option>
+            <option value="Used - Like New">Used - Like New</option>
+            <option value="Used - Good">Used - Good</option>
+            <option value="Used - Fair">Used - Fair</option>
+          </select>
+
+          <label class="block mb-2 text-gray-700 font-medium">Upload Images*</label>
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center mb-6">
+            <div id="imagePreview" class="grid grid-cols-3 gap-2 mb-2"></div>
+            <input type="file" id="imageUpload" accept="image/*" multiple class="hidden">
+            <button type="button" onclick="document.getElementById('imageUpload').click()" 
+                    class="px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition text-sm">
+              <i class="fas fa-camera mr-2"></i>Select Images
+            </button>
+            <p class="text-xs text-gray-500 mt-2">Upload up to 6 images (first image will be main display)</p>
           </div>
         </div>
       </div>
-    `;
-    // Preview image
-    const images = document.getElementById('imagePreview').querySelectorAll('img');
-    if (images.length > 0) {
-      document.getElementById('previewMainImage').src = images[0].src;
-      document.getElementById('previewMainImage').style.display = 'block';
-      previewContent.querySelector('.bg-gray-100 p').style.display = 'none';
-    }
-    document.getElementById('previewModal').classList.remove('hidden');
-  });
-
-  function closePreview() {
-    document.getElementById('previewModal').classList.add('hidden');
-  }
-
-  function showSuccessModal() {
-    document.getElementById('successModal').classList.remove('hidden');
-  }
-
-  function closeSuccessModal() {
-    document.getElementById('successModal').classList.add('hidden');
-    // Redirect to product page (auction page) to see all auctions including the new one
-    window.location.href = 'Auction.html';
-  }
-
-  // Store auction data in localStorage
-  function submitAuction() {
-    const images = [];
-    document.getElementById('imagePreview').querySelectorAll('img').forEach(img => {
-      images.push(img.src);
+      <div class="flex justify-end pt-6 border-t">
+        <button type="submit" class="px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium">
+          <i class="fas fa-gavel mr-2"></i>Start Auction
+        </button>
+      </div>
+    </form>
+    <div id="successMsg" class="hidden text-center text-green-700 font-bold mt-10 text-2xl">Auction created! Redirecting...</div>
+  </main>
+  <script>
+    // Image upload and preview
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+      const previewContainer = document.getElementById('imagePreview');
+      previewContainer.innerHTML = '';
+      const files = e.target.files;
+      if (files.length > 6) {
+        alert('You can upload a maximum of 6 images');
+        return;
+      }
+      for (let i = 0; i < Math.min(files.length, 6); i++) {
+        const file = files[i];
+        if (!file.type.match('image.*')) continue;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.className = 'w-full h-20 object-cover rounded-lg preview-card';
+          previewContainer.appendChild(img);
+        }
+        reader.readAsDataURL(file);
+      }
     });
 
-    const auction = {
-      id: Date.now(),
-      name: document.getElementById('itemName').value,
-      description: document.getElementById('itemDescription').value,
-      category: document.querySelector('input[name="category"]:checked').value,
-      startingBid: parseFloat(document.getElementById('startingBid').value),
-      reservePrice: document.getElementById('reservePrice').value ? parseFloat(document.getElementById('reservePrice').value) : null,
-      duration: parseInt(document.getElementById('auctionDuration').value),
-      condition: document.getElementById('itemCondition').value,
-      location: document.getElementById('itemLocation').value,
-      createdAt: new Date().toISOString(),
-      endTime: new Date(Date.now() + parseInt(document.getElementById('auctionDuration').value) * 24 * 60 * 60 * 1000).toISOString(),
-      status: 'active',
-      bids: [],
-      currentBid: parseFloat(document.getElementById('startingBid').value),
-      watchers: 0,
-      images: images
-    };
-
-    const auctions = JSON.parse(localStorage.getItem('auctions')) || [];
-    auctions.push(auction);
-    localStorage.setItem('auctions', JSON.stringify(auctions));
-    closePreview();
-    showSuccessModal();
-  }
-
-  // Use the modal Confirm & Start Auction button
-  window.submitAuction = submitAuction;
-
-  // Form submission
-  document.getElementById('auctionForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    submitAuction();
-  });
-</script>
-<!-- ... [keep all your code below, including the footer, unchanged] ... -->
+    // Auction form submission
+    document.getElementById('auctionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Gather data
+      const images = [];
+      document.getElementById('imagePreview').querySelectorAll('img').forEach(img => {
+        images.push(img.src);
+      });
+      if (images.length === 0) {
+        alert("Please upload at least one image.");
+        return;
+      }
+      const auction = {
+        id: Date.now(),
+        name: document.getElementById('itemName').value,
+        description: document.getElementById('itemDescription').value,
+        category: document.querySelector('input[name="category"]:checked').value,
+        startingBid: parseFloat(document.getElementById('startingBid').value),
+        reservePrice: document.getElementById('reservePrice').value ? parseFloat(document.getElementById('reservePrice').value) : null,
+        duration: parseInt(document.getElementById('auctionDuration').value),
+        condition: document.getElementById('itemCondition').value,
+        location: document.getElementById('itemLocation').value,
+        createdAt: new Date().toISOString(),
+        endTime: new Date(Date.now() + parseInt(document.getElementById('auctionDuration').value) * 24 * 60 * 60 * 1000).toISOString(),
+        status: 'active',
+        bids: [],
+        currentBid: parseFloat(document.getElementById('startingBid').value),
+        watchers: 0,
+        images: images
+      };
+      // Store to localStorage
+      const auctions = JSON.parse(localStorage.getItem('auctions')) || [];
+      auctions.push(auction);
+      localStorage.setItem('auctions', JSON.stringify(auctions));
+      // Show success and redirect
+      document.getElementById('auctionForm').style.display = "none";
+      document.getElementById('successMsg').classList.remove('hidden');
+      setTimeout(() => {
+        window.location.href = "Auction.html";
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
