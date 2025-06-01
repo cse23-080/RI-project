@@ -20,73 +20,19 @@
     }
   </script>
   <style>
-    .input-disabled {
-      @apply bg-gray-50 text-gray-700;
-    }
-    
-    .input-enabled {
-      @apply bg-white text-gray-900 shadow-sm;
-    }
-    
-    .profile-shadow {
-      box-shadow: 0 4px 20px rgba(46, 125, 50, 0.15);
-    }
-    
-    .profile-image-edit {
-      transition: transform 0.3s ease;
-    }
-    
-    .profile-image-edit:hover {
-      transform: scale(1.1);
-    }
-    
-    .sidebar-item-active {
-      @apply bg-green-50 text-farm-green;
-    }
-    
-    .sidebar-item {
-      @apply text-gray-600 hover:bg-gray-50;
-    }
-    
-    @media (max-width: 767px) {
-      .mobile-padding {
-        @apply px-4;
-      }
-    }
-    
-    .page-container {
-      display: none;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    
-    .page-container.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .tab-indicator {
-      position: relative;
-    }
-    
-    .tab-indicator::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -10px;
-      height: 3px;
-      width: 100%;
-      background: #2e7d32;
-      border-radius: 2px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .tab-indicator.active-tab::after {
-      opacity: 1;
-    }
+    .input-disabled { @apply bg-gray-50 text-gray-700; }
+    .input-enabled { @apply bg-white text-gray-900 shadow-sm; }
+    .profile-shadow { box-shadow: 0 4px 20px rgba(46, 125, 50, 0.15); }
+    .profile-image-edit { transition: transform 0.3s ease; }
+    .profile-image-edit:hover { transform: scale(1.1); }
+    .sidebar-item-active { @apply bg-green-50 text-farm-green; }
+    .sidebar-item { @apply text-gray-600 hover:bg-gray-50; }
+    @media (max-width: 767px) { .mobile-padding { @apply px-4; } }
+    .page-container { display: none; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .page-container.active { display: block; opacity: 1; transform: translateY(0); }
+    .tab-indicator { position: relative; }
+    .tab-indicator::after { content: ''; position: absolute; left: 0; bottom: -10px; height: 3px; width: 100%; background: #2e7d32; border-radius: 2px; opacity: 0; transition: opacity 0.3s ease; }
+    .tab-indicator.active-tab::after { opacity: 1; }
   </style>
 </head>
 <body class="bg-gray-50 font-sans">
@@ -99,14 +45,12 @@
           <span class="text-gray-800">Auction</span>
         </div>
       </div>
-      
       <nav class="hidden md:flex space-x-8">
         <a href="home.html" class="text-gray-700 hover:text-farm-green font-medium transition">Home</a>
         <a href="products.html" class="text-gray-700 hover:text-farm-green font-medium transition">Products</a>
         <a href="auctions.html" class="text-gray-700 hover:text-farm-green font-medium transition">Auctions</a>
         <a href="user.html" class="text-farm-green font-medium transition tab-indicator active-tab">My Profile</a>
       </nav>
-      
       <div class="flex items-center space-x-4">
         <button id="logoutBtn" class="px-4 py-2 bg-farm-green text-white rounded-md hover:bg-farm-dark-green transition">
           <i class="fas fa-sign-out-alt mr-2"></i>Logout
@@ -116,7 +60,6 @@
         </button>
       </div>
     </div>
-    
     <!-- Mobile Navigation -->
     <div id="mobileMenu" class="hidden md:hidden bg-white py-3 px-4 border-t">
       <div class="flex flex-col space-y-3">
@@ -127,63 +70,6 @@
       </div>
     </div>
   </header>
-
-  <!-- Change Password Modal -->
-  <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-xl shadow-xl w-11/12 md:w-1/2 lg:w-1/3 p-6 relative">
-      <button id="closePasswordModal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-        <i class="fas fa-times text-xl"></i>
-      </button>
-      <div class="mb-6">
-        <h3 class="text-xl font-bold text-gray-800">Change Password</h3>
-        <p class="text-gray-600 text-sm mt-1">Secure your account with a new password</p>
-      </div>
-      <form id="passwordForm">
-        <div class="mb-5">
-          <label class="block text-gray-700 text-sm font-medium mb-2" for="currentPassword">Current Password</label>
-          <div class="relative">
-            <input type="password" id="currentPassword"
-                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
-            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="currentPassword">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-        </div>
-        
-        <div class="mb-5">
-          <label class="block text-gray-700 text-sm font-medium mb-2" for="newPassword">New Password</label>
-          <div class="relative">
-            <input type="password" id="newPassword"
-                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
-            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="newPassword">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-          <p class="text-xs text-gray-500 mt-2">Must be at least 8 characters with letters and numbers</p>
-        </div>
-        
-        <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-medium mb-2" for="confirmPassword">Confirm New Password</label>
-          <div class="relative">
-            <input type="password" id="confirmPassword"
-                    class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green">
-            <button type="button" class="absolute right-3 top-3 text-gray-500 focus:outline-none toggle-password" data-target="confirmPassword">
-              <i class="far fa-eye"></i>
-            </button>
-          </div>
-        </div>
-        
-        <div class="flex justify-end gap-3">
-          <button type="button" id="cancelPasswordBtn" class="px-5 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
-            Cancel
-          </button>
-          <button type="submit" class="px-5 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
-            Update Password
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <!-- Notification Toast -->
   <div id="notificationToast" class="fixed top-5 right-5 transform translate-x-96 z-50">
@@ -219,7 +105,6 @@
             <h2 class="text-xl font-bold text-gray-800" id="userFullName">John Farmer</h2>
             <p class="text-gray-600 text-sm"><i class="far fa-calendar mr-1"></i> Member since <span id="memberSince">June 2022</span></p>
           </div>
-          
           <nav class="p-4">
             <ul class="space-y-2">
               <li>
@@ -250,28 +135,7 @@
             </ul>
           </nav>
         </div>
-        
-        <!-- Membership Card -->
-        <div class="bg-gradient-to-r from-green-500 to-farm-green rounded-xl p-5 mt-6 text-white shadow-lg">
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h3 class="font-medium text-green-100">FarmAuction Membership</h3>
-              <p class="text-2xl font-bold mt-1">Premium <span class="text-xs font-normal bg-green-800 py-1 px-2 rounded-lg ml-2">Active</span></p>
-            </div>
-            <div class="bg-white text-farm-green w-10 h-10 rounded-full flex items-center justify-center">
-              <i class="fas fa-crown"></i>
-            </div>
-          </div>
-          <div class="flex justify-between items-center text-sm">
-            <div>
-              <p class="text-green-100">Expires in</p>
-              <p class="font-semibold">90 days</p>
-            </div>
-            <button class="text-green-100 hover:text-white text-sm font-medium">Renew</button>
-          </div>
-        </div>
       </aside>
-
       <!-- Main Content -->
       <div class="flex-1">
         <!-- Profile Page -->
@@ -285,7 +149,6 @@
               </button>
             </div>
           </div>
-
           <!-- Profile Form -->
           <form id="profileForm" class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -295,562 +158,114 @@
                   <i class="fas fa-user-circle text-farm-green mr-2"></i> Personal Information
                 </h2>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="firstName">First Name</label>
                 <input type="text" id="firstName"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="lastName">Last Name</label>
                 <input type="text" id="lastName"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="email">Email Address</label>
                 <input type="email" id="email"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="phone">Phone Number</label>
                 <input type="tel" id="phone"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-
               <!-- Address Information -->
               <div class="md:col-span-2 mt-6">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex items-center">
                   <i class="fas fa-map-marker-alt text-farm-green mr-2"></i> Address Information
                 </h2>
               </div>
-              
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="street">Street Address</label>
                 <input type="text" id="street"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="city">City</label>
                 <input type="text" id="city"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="region">Region</label>
                 <input type="text" id="region"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="postalCode">Postal Code</label>
                 <input type="text" id="postalCode"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="country">Country</label>
                 <select id="country"
-                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
-                         disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
+                  disabled>
                   <option value="Botswana">Botswana</option>
                   <option value="South Africa">South Africa</option>
                   <option value="Zimbabwe">Zimbabwe</option>
                   <option value="Namibia">Namibia</option>
                 </select>
               </div>
-
               <!-- Farm Information -->
               <div class="md:col-span-2 mt-6">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b flex items-center">
                   <i class="fas fa-tractor text-farm-green mr-2"></i> Farm Information
                 </h2>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="farmName">Farm Name</label>
                 <input type="text" id="farmName"
-                        class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                        disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled>
               </div>
-              
               <div>
                 <label class="block text-gray-700 mb-2" for="farmType">Farm Type</label>
                 <select id="farmType"
-                         class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
-                         disabled>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled cursor-not-allowed"
+                  disabled>
                   <option value="Crop">Crop Production</option>
                   <option value="Livestock">Livestock</option>
                   <option value="Mixed">Mixed Farming</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
-              
               <div class="md:col-span-2">
                 <label class="block text-gray-700 mb-2" for="farmDescription">Farm Description</label>
                 <textarea id="farmDescription" rows="3"
-                          class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
-                          disabled></textarea>
+                  class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green input-disabled"
+                  disabled></textarea>
               </div>
-
-              <!-- Form Actions -->
               <div class="md:col-span-2 flex justify-end space-x-4 pt-6 border-t">
                 <button type="button" id="cancelEditBtn"
-                         class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium hidden">
+                  class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium hidden">
                   Cancel
                 </button>
                 <button type="submit" id="saveProfileBtn"
-                         class="px-6 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium hidden">
+                  class="px-6 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium hidden">
                   Save Changes
                 </button>
               </div>
-               <!-- Account Security Card -->
-        <div class="bg-white rounded-2xl shadow-md overflow-hidden mt-8 profile-shadow">
-          <div class="border-b p-6">
-            <h2 class="text-xl font-bold text-gray-800 flex items-center">
-              <i class="fas fa-shield-alt text-farm-green mr-3"></i> Account Security
-            </h2>
-          </div>
-          <div class="p-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-6 border-b">
-              <div>
-                <h3 class="font-semibold text-gray-800">Password</h3>
-                <p class="text-gray-600 mt-1">Last changed <span id="passwordLastChanged">3 months ago</span></p>
-              </div>
-              <button id="changePasswordBtn" class="mt-3 md:mt-0 px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
-                <i class="fas fa-key mr-2"></i> Change Password
-              </button>
-            </div>
-                        
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
-              <div>
-                <h3 class="font-semibold text-gray-800">Two-Factor Authentication</h3>
-                <p class="text-gray-600 mt-1">Add extra security to your account</p>
-              </div>
-              <button class="mt-3 md:mt-0 px-4 py-2 border border-farm-green text-farm-green rounded-lg hover:bg-green-50 transition font-medium flex items-center">
-                <i class="fas fa-mobile-alt mr-2"></i> Enable 2FA
-              </button>
-            </div>         
-          </div>
-        </div>
             </div>
           </form>
         </div>
-
-        <!-- Orders Page -->
-        <div id="ordersPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
-          <div class="border-b p-6">
-            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-              <i class="fas fa-shopping-bag text-farm-green mr-3"></i> My Orders
-            </h1>
-          </div>
-          
-          <div class="p-6">
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                  <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Order #
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Date
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Items
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Total
-                    </th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <a href="#" class="text-farm-green hover:underline"></a>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <a href="#" class="text-farm-green hover:underline"></a>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                      
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <a href="#" class="text-farm-green hover:underline"></a>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                    
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                    
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                  
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                      
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bids Page -->
-        <div id="bidsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
-          <div class="border-b p-6">
-            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-              <i class="fas fa-gavel text-farm-green mr-3"></i> My Bids
-            </h1>
-          </div>
-          
-          <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <!-- Bid Card -->
-              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <h3 class="font-bold text-lg text-gray-800">Maize Auction</h3>
-                    <p class="text-gray-600 text-sm mt-1">Ends: <span class="font-medium">Today, 5:00 PM</span></p>
-                  </div>
-                  <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                    Active
-                  </span>
-                </div>
-                <div class="mt-4">
-                  <div class="flex justify-between items-center mb-1">
-                    <span class="text-gray-600">Your Bid</span>
-                    <span class="font-semibold">P420.00</span>
-                  </div>
-                  <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Current Highest</span>
-                    <span class="font-semibold text-farm-green">P430.00</span>
-                  </div>
-                  <button class="mt-4 w-full py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
-                    Increase Bid
-                  </button>
-                </div>
-              </div>
-              
-              <!-- Bid Card -->
-              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <h3 class="font-bold text-lg text-gray-800">Fresh Tomatoes</h3>
-                    <p class="text-gray-600 text-sm mt-1">Ended: <span class="font-medium">5 Nov, 2:30 PM</span></p>
-                  </div>
-                  <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-semibold rounded-full">
-                    Closed
-                  </span>
-                </div>
-                <div class="mt-4">
-                  <div class="flex justify-between items-center mb-1">
-                    <span class="text-gray-600">Your Bid</span>
-                    <span class="font-semibold">P180.00</span>
-                  </div>
-                  <div class="flex justify-between items-center">
-                    <span class="text-gray-600">Winning Bid</span>
-                    <span class="font-semibold text-farm-green">P190.00</span>
-                  </div>
-                  <div class="mt-4 text-center py-2 bg-gray-50 rounded-lg">
-                    <p class="text-gray-600">You didn't win this auction</p>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Bid Card -->
-              <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
-                <div class="flex justify-between items-start">
-                  <div>
-                    <h3 class="font-bold text-lg text-gray-800">Premium Cotton</h3>
-                    <p class="text-gray-600 text-sm mt-1">Ended: <span class="font-medium">28 Oct, 4:15 PM</span></p>
-                  </div>
-                  <span class="px-2 py-1 bg-green-800 text-white text-xs font-semibold rounded-full">
-                    Won
-                  </span>
-                </div>
-                <div class="mt-4">
-                  <div class="flex justify-between items-center mb-1">
-                    <span class="text-gray-600">Your Winning Bid</span>
-                    <span class="font-semibold">P680.00</span>
-                  </div>
-                  <div class="mt-4 flex justify-between space-x-2">
-                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
-                      View Order
-                    </button>
-                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
-                      Rate Product
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Listings Page -->
-        <div id="listingsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
-          <div class="border-b p-6">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-                <i class="fas fa-list-alt text-farm-green mr-3"></i> My Listings
-              </h1>
-              <button class="px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
-                <i class="fas fa-plus mr-2"></i> New Listing
-              </button>
-            </div>
-          </div>
-          
-          <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <!-- Listing Card -->
-              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-gradient-to-br from-farm-green to-green-300 flex items-center justify-center">
-                  <i class="fas fa-image text-white text-5xl opacity-30"></i>
-                </div>
-                <div class="p-5">
-                  <div class="flex justify-between items-start">
-                    <h3 class="font-bold text-lg text-gray-800">Maize - Premium Quality</h3>
-                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
-                      Active
-                    </span>
-                  </div>
-                  <p class="text-gray-600 text-sm mt-2">High-quality maize from sustainable farming practices.</p>
-                  <div class="flex justify-between items-center mt-4">
-                    <span class="text-gray-700 font-medium">P18.50/kg</span>
-                    <span class="text-gray-600 text-sm">Min: 50kg</span>
-                  </div>
-                  <div class="flex justify-between space-x-2 mt-4">
-                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
-                      <i class="fas fa-edit mr-1"></i> Edit
-                    </button>
-                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
-                      <i class="fas fa-chart-line mr-1"></i> Stats
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Listing Card -->
-              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-gradient-to-br from-farm-dark-green to-green-400 flex items-center justify-center">
-                  <i class="tomatos.jpg"></i>
-                </div>
-                <div class="p-5">
-                  <div class="flex justify-between items-start">
-                    <h3 class="font-bold text-lg text-gray-800">Organic Tomatoes</h3>
-                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full">
-                      Pending
-                    </span>
-                  </div>
-                  <p class="text-gray-600 text-sm mt-2">Fresh, organically grown tomatoes with excellent flavor.</p>
-                  <div class="flex justify-between items-center mt-4">
-                    <span class="text-gray-700 font-medium">P16.00/kg</span>
-                    <span class="text-gray-600 text-sm">Min: 20kg</span>
-                  </div>
-                  <div class="flex justify-between space-x-2 mt-4">
-                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
-                      <i class="fas fa-edit mr-1"></i> Edit
-                    </button>
-                    <button class="flex-1 py-2 bg-gray-200 text-gray-700 rounded-lg cursor-not-allowed font-medium opacity-50">
-                      <i class="fas fa-chart-line mr-1"></i> Stats
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Listing Card -->
-              <div class="border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
-                <div class="h-48 bg-gradient-to-br from-gray-400 to-gray-200 flex items-center justify-center">
-                  <i class="fas fa-image text-gray-600 text-5xl opacity-30"></i>
-                </div>
-                <div class="p-5">
-                  <div class="flex justify-between items-start">
-                    <h3 class="font-bold text-lg text-gray-800">Quality Potatoes</h3>
-                    <span class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-semibold rounded-full">
-                      Closed
-                    </span>
-                  </div>
-                  <p class="text-gray-600 text-sm mt-2">Large potatoes perfect for various cooking needs.</p>
-                  <div class="flex justify-between items-center mt-4">
-                    <span class="text-gray-700 font-medium">P34.00/kg</span>
-                    <span class="text-gray-600 text-sm">Min: 40kg</span>
-                  </div>
-                  <div class="flex justify-between space-x-2 mt-4">
-                    <button class="flex-1 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium">
-                      <i class="fas fa-redo mr-1"></i> Relist
-                    </button>
-                    <button class="flex-1 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition font-medium">
-                      <i class="fas fa-chart-line mr-1"></i> Stats
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Account Settings Page -->
-        <div id="settingsPage" class="bg-white rounded-2xl shadow-md overflow-hidden profile-shadow page-container">
-          <div class="border-b p-6">
-            <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-              <i class="fas fa-cog text-farm-green mr-3"></i> Account Settings
-            </h1>
-          </div>
-          
-          <div class="p-6">
-            <!-- Payment Method Card -->
-            <div class="border rounded-lg p-5 shadow-sm mb-6">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">Payment Methods</h2>
-                <button class="px-4 py-2 bg-farm-green text-white rounded-lg hover:bg-farm-dark-green transition flex items-center">
-                  <i class="fas fa-plus mr-2"></i> Add Method
-                </button>
-              </div>
-              
-              <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                <div class="flex items-center">
-                  <div class="w-12 h-8 bg-gray-700 rounded flex items-center justify-center mr-4">
-                    <i class="fas fa-credit-card text-white"></i>
-                  </div>
-                  <div>
-                    <h3 class="font-medium">Visa ending in 7890</h3>
-                    <p class="text-sm text-gray-600">Expires 12/2025</p>
-                  </div>
-                </div>
-                <button class="text-gray-500 hover:text-red-500">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </div>
-            
-            <!-- Notification Settings -->
-            <div class="border rounded-lg p-5 shadow-sm mb-6">
-              <h2 class="text-lg font-semibold text-gray-800 mb-4">Notification Preferences</h2>
-              
-              <div class="space-y-4">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="font-medium text-gray-700">Email Notifications</h3>
-                    <p class="text-sm text-gray-600">Get important updates about your account</p>
-                  </div>
-                  <label for="emailToggle" class="flex items-center cursor-pointer">
-                    <div class="relative">
-                      <input type="checkbox" id="emailToggle" class="sr-only" checked>
-                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
-                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6 bg-farm-green"></div>
-                    </div>
-                  </label>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="font-medium text-gray-700">SMS Notifications</h3>
-                    <p class="text-sm text-gray-600">Receive text alerts on your phone</p>
-                  </div>
-                  <label for="smsToggle" class="flex items-center cursor-pointer">
-                    <div class="relative">
-                      <input type="checkbox" id="smsToggle" class="sr-only">
-                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
-                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition"></div>
-                    </div>
-                  </label>
-                </div>
-                
-                <div class="flex items-center justify-between">
-                  <div>
-                    <h3 class="font-medium text-gray-700">Bid Activity Alerts</h3>
-                    <p class="text-sm text-gray-600">Get notified when you're outbid</p>
-                  </div>
-                  <label for="bidToggle" class="flex items-center cursor-pointer">
-                    <div class="relative">
-                      <input type="checkbox" id="bidToggle" class="sr-only" checked>
-                      <div class="block bg-gray-300 w-14 h-8 rounded-full"></div>
-                      <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform translate-x-6 bg-farm-green"></div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Account Actions -->
-            <div class="border rounded-lg p-5 shadow-sm">
-              <h2 class="text-lg font-semibold text-gray-800 mb-4">Account Actions</h2>
-              
-              <div class="space-y-3">
-                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                  <div>
-                    <h3 class="font-medium text-gray-700">Download Account Data</h3>
-                    <p class="text-sm text-gray-600">Export your personal information</p>
-                  </div>
-                  <i class="fas fa-download text-farm-green"></i>
-                </button>
-                
-                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition">
-                  <div>
-                    <h3 class="font-medium text-gray-700">Deactivate Account</h3>
-                    <p class="text-sm text-gray-600">Temporarily disable your account</p>
-                  </div>
-                  <i class="fas fa-ban text-yellow-500"></i>
-                </button>
-                
-                <button class="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-red-50 rounded-lg transition">
-                  <div>
-                    <h3 class="font-medium text-red-700">Delete Account</h3>
-                    <p class="text-sm text-red-600">Permanently delete your account and data</p>
-                  </div>
-                  <i class="fas fa-trash-alt text-red-500"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Add additional tabs/pages here if needed -->
       </div>
     </div>
   </main>
@@ -863,21 +278,12 @@
           <h3 class="text-xl font-bold mb-4">FarmAuction</h3>
           <p class="text-gray-400 mb-4">Connecting farmers directly with consumers for fair prices and fresh products.</p>
           <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition">
-              <i class="fab fa-youtube"></i>
-            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
-        
         <div>
           <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
           <ul class="space-y-2">
@@ -887,7 +293,6 @@
             <li><a href="about.html" class="text-gray-400 hover:text-white transition">About Us</a></li>
           </ul>
         </div>
-        
         <div>
           <h3 class="text-lg font-semibold mb-4">Account</h3>
           <ul class="space-y-2">
@@ -897,7 +302,6 @@
             <li><a href="settings.html" class="text-gray-400 hover:text-white transition">Settings</a></li>
           </ul>
         </div>
-        
         <div>
           <h3 class="text-lg font-semibold mb-4">Contact</h3>
           <ul class="space-y-2">
@@ -916,7 +320,6 @@
           </ul>
         </div>
       </div>
-      
       <div class="border-t border-gray-700 pt-6">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <p class="text-gray-400 text-sm mb-4 md:mb-0">&copy; 2023 FarmAuction. All rights reserved.</p>
@@ -929,304 +332,152 @@
     </div>
   </footer>
 
+  <!-- Supabase and Profile Loader Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.6/dist/umd/supabase.min.js"></script>
   <script>
-    // Tab Switching Functionality
-    function switchTab(tabName) {
-      // Hide all pages
-      document.querySelectorAll('.page-container').forEach(page => {
-        page.classList.remove('active');
-      });
-      
-      // Show selected page
-      const page = document.getElementById(`${tabName}Page`);
-      if (page) {
-        page.classList.add('active');
+    // Supabase credentials
+    const SUPABASE_URL = 'https://sumyihinshrmozoqtwan.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1bXlpaGluc2hybW96b3F0d2FuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3Mjk5MTIsImV4cCI6MjA2NDMwNTkxMn0.ndtyLtLTlPydaznunDjzQyOs4S-F_mrrw4ohbv4iN_k';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadUserProfile() {
+      // Get current user session
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (!user || error) {
+        window.location.href = 'login.html';
+        return;
       }
-      
-      // Update sidebar active state
-      document.querySelectorAll('nav a').forEach(link => {
-        if (link.dataset.tab === tabName) {
-          link.classList.remove('sidebar-item');
-          link.classList.add('sidebar-item-active');
-        } else {
-          link.classList.remove('sidebar-item-active');
-          link.classList.add('sidebar-item');
-        }
-      });
+      // Fill in basic info
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('userFullName').textContent = [user.user_metadata?.firstname, user.user_metadata?.lastname].filter(Boolean).join(' ') || user.email;
+      document.getElementById('firstName').value = user.user_metadata?.firstname || '';
+      document.getElementById('lastName').value = user.user_metadata?.lastname || '';
+      document.getElementById('memberSince').textContent = new Date(user.created_at).toLocaleString('default', { month: 'long', year: 'numeric' });
+
+      // Optionally, fill phone/farm/etc. from user_metadata if you collect them, else leave blank/default
+      document.getElementById('phone').value = user.user_metadata?.phone || '';
+      document.getElementById('street').value = user.user_metadata?.street || '';
+      document.getElementById('city').value = user.user_metadata?.city || '';
+      document.getElementById('region').value = user.user_metadata?.region || '';
+      document.getElementById('postalCode').value = user.user_metadata?.postalCode || '';
+      document.getElementById('country').value = user.user_metadata?.country || '';
+      document.getElementById('farmName').value = user.user_metadata?.farmName || '';
+      document.getElementById('farmType').value = user.user_metadata?.farmType || '';
+      document.getElementById('farmDescription').value = user.user_metadata?.farmDescription || '';
     }
-    
-    // User data management
-    function getUserData() {
-      // Load user data from localStorage or create default if not exists
-      let user = JSON.parse(localStorage.getItem('farmAuctionUser'));
-      
-      if (!user) {
-        const joinDate = new Date();
-        joinDate.setMonth(joinDate.getMonth() - 7); // 7 months ago
-        
-        user = {
-          id: '',
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          street: '',
-          city: '',
-          region: '',
-          postalCode: '',
-          country: '',
-          farmName: '',
-          farmType: '',
-          farmDescription: '',
-          joinDate: joinDate.toISOString(),
-          lastPasswordChange: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString(), // 90 days ago
+
+    document.addEventListener('DOMContentLoaded', function () {
+      loadUserProfile();
+
+      // Edit profile (demo: enable/disable fields)
+      document.getElementById('editProfileBtn').addEventListener('click', function () {
+        document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea').forEach(input => {
+          input.disabled = false;
+          input.classList.remove('input-disabled');
+          input.classList.add('input-enabled');
+        });
+        document.getElementById('editProfileBtn').classList.add('hidden');
+        document.getElementById('saveProfileBtn').classList.remove('hidden');
+        document.getElementById('cancelEditBtn').classList.remove('hidden');
+      });
+
+      document.getElementById('cancelEditBtn').addEventListener('click', function () {
+        loadUserProfile();
+        document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea').forEach(input => {
+          input.disabled = true;
+          input.classList.remove('input-enabled');
+          input.classList.add('input-disabled');
+        });
+        document.getElementById('editProfileBtn').classList.remove('hidden');
+        document.getElementById('saveProfileBtn').classList.add('hidden');
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+      });
+
+      document.getElementById('profileForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        // Gather updated info
+        const user = (await supabase.auth.getUser()).data.user;
+        if (!user) return;
+        const updates = {
+          firstname: document.getElementById('firstName').value,
+          lastname: document.getElementById('lastName').value,
+          phone: document.getElementById('phone').value,
+          street: document.getElementById('street').value,
+          city: document.getElementById('city').value,
+          region: document.getElementById('region').value,
+          postalCode: document.getElementById('postalCode').value,
+          country: document.getElementById('country').value,
+          farmName: document.getElementById('farmName').value,
+          farmType: document.getElementById('farmType').value,
+          farmDescription: document.getElementById('farmDescription').value
         };
-        
-        localStorage.setItem('farmAuctionUser', JSON.stringify(user));
-      }
-      
-      return user;
-    }
-
-    function saveUserData(userData) {
-      localStorage.setItem('farmAuctionUser', JSON.stringify(userData));
-    }
-
-    function formatJoinDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleString('default', { month: 'long', year: 'numeric' });
-    }
-
-    function formatTimeAgo(dateString) {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffMonths = (now.getFullYear() - date.getFullYear()) * 12 + (now.getMonth() - date.getMonth());
-      
-      if (diffMonths > 0) {
-        return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
-      }
-      
-      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
-      if (diffDays > 0) {
-        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-      }
-      
-      return 'today';
-    }
-
-    function populateProfileForm() {
-      const user = getUserData();
-      
-      // Personal Information
-      document.getElementById('firstName').value = user.firstName;
-      document.getElementById('lastName').value = user.lastName;
-      document.getElementById('userFullName').textContent = `${user.firstName} ${user.lastName}`;
-      document.getElementById('email').value = user.email;
-      document.getElementById('phone').value = user.phone;
-      
-      // Address Information
-      document.getElementById('street').value = user.street;
-      document.getElementById('city').value = user.city;
-      document.getElementById('region').value = user.region;
-      document.getElementById('postalCode').value = user.postalCode;
-      document.getElementById('country').value = user.country;
-      document.getElementById('footerAddress').textContent = user.street;
-      document.getElementById('footerPhone').textContent = user.phone;
-      
-      // Farm Information
-      document.getElementById('farmName').value = user.farmName;
-      document.getElementById('farmType').value = user.farmType;
-      document.getElementById('farmDescription').value = user.farmDescription;
-      
-      // Membership info
-      document.getElementById('memberSince').textContent = formatJoinDate(user.joinDate);
-      document.getElementById('passwordLastChanged').textContent = formatTimeAgo(user.lastPasswordChange);
-    }
-
-    // Edit Profile functionality
-    function enableFormEditing() {
-      const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
-      inputs.forEach(input => {
-        input.disabled = false;
-        input.classList.remove('input-disabled');
-        input.classList.add('input-enabled');
-      });
-      
-      document.getElementById('cancelEditBtn').classList.remove('hidden');
-      document.getElementById('saveProfileBtn').classList.remove('hidden');
-      document.getElementById('editProfileBtn').classList.add('hidden');
-    }
-
-    function disableFormEditing() {
-      const inputs = document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea');
-      inputs.forEach(input => {
-        input.disabled = true;
-        input.classList.remove('input-enabled');
-        input.classList.add('input-disabled');
-      });
-      
-      document.getElementById('cancelEditBtn').classList.add('hidden');
-      document.getElementById('saveProfileBtn').classList.add('hidden');
-      document.getElementById('editProfileBtn').classList.remove('hidden');
-    }
-
-    // Password Modal functionality
-    function showPasswordModal() {
-      document.getElementById('passwordModal').classList.remove('hidden');
-      document.getElementById('currentPassword').value = '';
-      document.getElementById('newPassword').value = '';
-      document.getElementById('confirmPassword').value = '';
-    }
-
-    function hidePasswordModal() {
-      document.getElementById('passwordModal').classList.add('hidden');
-    }
-
-    // Toggle password visibility
-    function setupPasswordToggles() {
-      document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function() {
-          const target = this.getAttribute('data-target');
-          const passwordInput = document.getElementById(target);
-          const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-          passwordInput.setAttribute('type', type);
-          
-          // Toggle eye icon
-          this.querySelector('i').classList.toggle('fa-eye');
-          this.querySelector('i').classList.toggle('fa-eye-slash');
-        });
-      });
-    }
-
-    // Toast notification
-    function showToast(title, message, success = true) {
-      const toast = document.getElementById('notificationToast');
-      const toastTitle = document.getElementById('toastTitle');
-      const toastMessage = document.getElementById('toastMessage');
-      const icon = document.querySelector('#notificationToast i');
-      
-      toastTitle.textContent = title;
-      toastMessage.textContent = message;
-      
-      if (success) {
-        icon.classList.remove('fa-times-circle', 'text-red-500');
-        icon.classList.add('fa-check-circle', 'text-green-500');
-      } else {
-        icon.classList.remove('fa-check-circle', 'text-green-500');
-        icon.classList.add('fa-times-circle', 'text-red-500');
-      }
-      
-      toast.classList.remove('translate-x-96');
-      toast.classList.add('-translate-x-0');
-      
-      setTimeout(() => {
-        toast.classList.add('translate-x-96');
-        toast.classList.remove('-translate-x-0');
-      }, 3000);
-    }
-
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      // Tab switching functionality
-      document.querySelectorAll('nav a[data-tab]').forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          switchTab(this.dataset.tab);
-        });
-      });
-      
-      // Populate user data
-      populateProfileForm();
-      setupPasswordToggles();
-      
-      // Profile form events
-      document.getElementById('editProfileBtn').addEventListener('click', enableFormEditing);
-      
-      document.getElementById('cancelEditBtn').addEventListener('click', function() {
-        // Re-populate form to discard changes
-        populateProfileForm();
-        disableFormEditing();
-      });
-      
-      document.getElementById('profileForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Update user data
-        const user = getUserData();
-        user.firstName = document.getElementById('firstName').value;
-        user.lastName = document.getElementById('lastName').value;
-        user.email = document.getElementById('email').value;
-        user.phone = document.getElementById('phone').value;
-        user.street = document.getElementById('street').value;
-        user.city = document.getElementById('city').value;
-        user.region = document.getElementById('region').value;
-        user.postalCode = document.getElementById('postalCode').value;
-        user.country = document.getElementById('country').value;
-        user.farmName = document.getElementById('farmName').value;
-        user.farmType = document.getElementById('farmType').value;
-        user.farmDescription = document.getElementById('farmDescription').value;
-        
-        saveUserData(user);
-        populateProfileForm(); // Update the displayed name
-        disableFormEditing();
-        showToast('Profile Updated', 'Your changes have been saved successfully');
-      });
-      
-      // Password modal events
-      document.getElementById('changePasswordBtn').addEventListener('click', showPasswordModal);
-      
-      document.getElementById('closePasswordModal').addEventListener('click', hidePasswordModal);
-      document.getElementById('cancelPasswordBtn').addEventListener('click', hidePasswordModal);
-      
-      document.getElementById('passwordForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const currentPassword = document.getElementById('currentPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        
-        // Simple validation
-        if (newPassword.length < 8) {
-          showToast('Error', 'Password must be at least 8 characters', false);
-          return;
+        const { error } = await supabase.auth.updateUser({ data: updates });
+        if (error) {
+          showToast('Error', error.message, false);
+        } else {
+          showToast('Profile Updated', 'Your profile has been updated successfully.');
+          loadUserProfile();
         }
-        
-        if (newPassword !== confirmPassword) {
-          showToast('Error', 'New passwords do not match', false);
-          return;
-        }
-        
-        // In a real app, we would verify current password with server
-        // For demo, we'll just update locally
-        const user = getUserData();
-        user.lastPasswordChange = new Date().toISOString();
-        saveUserData(user);
-        
-        // Update UI
-        document.getElementById('passwordLastChanged').textContent = formatTimeAgo(user.lastPasswordChange);
-        hidePasswordModal();
-        showToast('Password Updated', 'Your password has been changed successfully');
+        // disable editing
+        document.querySelectorAll('#profileForm input, #profileForm select, #profileForm textarea').forEach(input => {
+          input.disabled = true;
+          input.classList.remove('input-enabled');
+          input.classList.add('input-disabled');
+        });
+        document.getElementById('editProfileBtn').classList.remove('hidden');
+        document.getElementById('saveProfileBtn').classList.add('hidden');
+        document.getElementById('cancelEditBtn').classList.add('hidden');
       });
-      
-      // Logout button
-      document.getElementById('logoutBtn').addEventListener('click', function() {
-        localStorage.removeItem('farmAuctionUser');
-        showToast('Logged Out', 'You have been logged out successfully');
+
+      // Logout
+      document.getElementById('logoutBtn').addEventListener('click', async function () {
+        await supabase.auth.signOut();
+        window.location.href = 'login.html';
+      });
+
+      // Toast helper
+      window.showToast = function(title, message, success = true) {
+        const toast = document.getElementById('notificationToast');
+        const toastTitle = document.getElementById('toastTitle');
+        const toastMessage = document.getElementById('toastMessage');
+        const icon = toast.querySelector('i');
+        toastTitle.textContent = title;
+        toastMessage.textContent = message;
+        if (success) {
+          icon.className = 'fas fa-check-circle text-green-500 text-2xl';
+        } else {
+          icon.className = 'fas fa-times-circle text-red-500 text-2xl';
+        }
+        toast.classList.remove('translate-x-96');
+        toast.classList.add('-translate-x-0');
         setTimeout(() => {
-          // In a real app, redirect to login page
-          window.location.href = 'login.html';
-        }, 1500);
-      });
-      
-      // Mobile menu toggle
-      document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-        document.getElementById('mobileMenu').classList.toggle('hidden');
-      });
-      
-      // Close toast
+          toast.classList.add('translate-x-96');
+          toast.classList.remove('-translate-x-0');
+        }, 3000);
+      };
       document.getElementById('closeToast').addEventListener('click', function() {
         document.getElementById('notificationToast').classList.add('translate-x-96');
         document.getElementById('notificationToast').classList.remove('-translate-x-0');
+      });
+
+      // Mobile menu
+      document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+      });
+
+      // Tab switching (if you add more pages)
+      document.querySelectorAll('nav a[data-tab]').forEach(link => {
+        link.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active'));
+          const page = document.getElementById(`${this.dataset.tab}Page`);
+          if (page) page.classList.add('active');
+          document.querySelectorAll('nav a').forEach(l => {
+            l.classList.remove('sidebar-item-active');
+            l.classList.add('sidebar-item');
+          });
+          this.classList.add('sidebar-item-active');
+        });
       });
     });
   </script>
